@@ -18,7 +18,11 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 
 app.get('/', function(req, res){
-    res.render('pages/index');
+    res.render('index');
+});
+
+app.post('/eleve', function(req, res){
+    res.redirect('/eleve/' + req.body.id);
 });
 
 app.get('/eleves', function(req, res){
@@ -28,19 +32,29 @@ app.get('/eleves', function(req, res){
             return console.error('Erreur avec la table eleve', err);
         }
         if(result.rows){
-            res.render('pages/eleves', {
+            res.render('eleves', {
                 eleves: result.rows
             });
         }
     });
 });
 
+app.get('/eleve/:id', function(req, res){
+    bdd.query('SELECT * FROM eleve WHERE matricule = $1', [req.params.id], function(err, result){
+        if(err) return console.error("Erreur dans l'accès aux données d'un étudiant");
+
+        res.render('eleveProfil', {
+            eleve: (result.rows[0]) ? result.rows[0] : null
+        });
+    });
+});
+
 app.get('/adm', function(req, res){
-    res.render('pages/admin');
+    res.render('admin');
 });
 
 app.get('/eleve/add', function(req, res){
-    res.render('pages/ajoutEleve');
+    res.render('ajoutEleve');
 })
 
 app.post('/eleve/add', function(req, res){

@@ -1,0 +1,3 @@
+Sécuriser les espaces avec les JavaScript Web Tokens :
+https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
+

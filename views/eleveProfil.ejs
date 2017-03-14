@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <% if(eleve != null) { %>
+        <title><%= eleve.prenom %> <%= eleve.nom %></title>
+    <% } else { %>
+        <title>Profil inexistant</title>
+    <% } %>
+    
+</head>
+
+<body>
+    <% if(eleve != null){ %>
+        
+
+        <p>
+            Prénom : <%= eleve.prenom %>
+        </p>
+        <p>
+            Nom : <%= eleve.nom %>
+        </p>
+        <p>
+            Date de naissance : <%= eleve.date_naissance %>
+        </p>
+        <p>
+            Ville de naissance : <%= eleve.ville_naissance %>
+        </p>
+        <p>
+            Pays de naissance : <%= eleve.pays_naissance %>
+        </p>
+        <p>
+            Etablissement précédent : <%= eleve.etablissement_precedent %>
+        </p>
+        <p>
+            Sexe : <%= eleve.sexe %>
+        </p>
+        <p>
+            Photo : <%= eleve.photo %>
+        </p>
+        <p>
+            Date d'inscription : <%= eleve.date_inscription %>
+        </p>
+        <p>
+            Convocation : <%= eleve.convocation %>
+        </p>
+        <p>
+            Bulletin : <%= eleve.bulletin %>
+        </p>
+
+
+    
+    <%} else { %>
+    
+        <p>Ce matricule ne correspond à aucun élève de la base de donnée.</p>
+    
+    <% } %>
+    
+</body>
+</html>
