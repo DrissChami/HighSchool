@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajout d'élève</title>
+    <meta charset='utf-8'/>
+</head>
+
+<body>
+    <center>
+        <form method="post" action="/eleve/add">
+            <input type="text" name="nom" placeholder="Nom" required>
+            <br>
+            <input type="text" name="prenom" placeholder="Prenom" required>
+            <input type="text" name="date_naissance" placeholder="AAAA-MM-JJ" required>
+            <input type="text" name="ville_naissance" placeholder="Ville de naissance" required>
+            <input type="text" name="pays_naissance" placeholder="Pays de naissance" required>
+            <input type="text" name="etablissement_precedent" placeholder="Etablissement précédent">
+            <input type="file" name="photo" placeholder="Choisir une photo">
+            <input type="text" name="sexe" placeholder="sexe" required>
+            <input type="text" name="date_inscription" placeholder="AAAA-MM-JJ" required>
+            <input type="file" name="convocation" placeholder="Télécharger la convocation">
+            <input type="file" name="bulletin" placeholder="Télécharger le bulletin">
+            
+            <button type="submit">Ajouter l'élève</button>
+        </form>
+
+    </center>
+</body>
+</html>

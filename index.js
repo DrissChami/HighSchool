@@ -9,6 +9,7 @@ var http = require('http'),
 
 
 app.use(express.static(__dirname+'/public'));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 var connect = (process.env.DATABASE_URL) ? process.env.DATABASE_URL : "postgres://etienne:@localhost/";
 
@@ -34,10 +35,40 @@ app.get('/eleves', function(req, res){
     });
 });
 
+app.get('/adm', function(req, res){
+    res.render('pages/admin');
+});
+
+app.get('/eleve/add', function(req, res){
+    res.render('pages/ajoutEleve');
+})
+
+app.post('/eleve/add', function(req, res){
+
+    console.log(req.body);
+    
+    bdd.query("INSERT INTO eleve (nom, prenom, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, photo, sexe, date_inscription, convocation, bulletin) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+        [req.body.nom, 
+         req.body.prenom, 
+         req.body.date_naissance, 
+         req.body.ville_naissance, 
+         req.body.pays_naissance, 
+         req.body.etablissement_precedent, 
+         null, 
+         true, 
+         req.body.date_inscription, 
+         null,
+         null]    
+    );
+    
+    res.redirect('/eleves');
+    
+});
+
 
 // ############# SERVER START ########
 
-app.listen(process.env.PORT || 3000, function(){
+app.listen(process.env.PORT || 5000, function(){
     console.log('Started on port ' + (process.env.PORT || '3000'));
     pg.connect(connect, function(err, client, done){
         if(err){
