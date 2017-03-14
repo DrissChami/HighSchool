@@ -1,0 +1,23 @@
+{
+  "name": "otzup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "base64image-to-file": "^1.2.0",
+    "body-parser": "*",
+    "ejs": "*",
+    "express": "*",
+    "express-favicon": "^2.0.0",
+    "markdown": "*",
+    "multer": "*",
+    "pg": "*",
+    "sparkpost": "^2.0.1"
+  }
+}

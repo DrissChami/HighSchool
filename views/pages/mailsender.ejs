@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <meta charset='utf-8'/>
+        <link rel=stylesheet href="../css/bootstrap.css">
+    </head>
+    <body>
+        <center class="container" style="margin-top: 100px;">
+            <form class="form-horizontal" method="post" action="/adm/sendmail">
+                
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">From:</span>
+                        <input type="text" class="form-control" placeholder="hello" style="height: 40px;" name="sender">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <textarea class="form-control" rows="5" name="content" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Subject:</span>
+                        <input type="text" class="form-control" placeholder="Sujet du mail" style="height: 40px;" name="subject" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">@</span>
+                        <input type="email" class="form-control" placeholder="john.doe@mail.com" style="height: 40px;" name="email" required>
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-lg btn-warning" type="submit">
+                                <i class="glyphicon glyphicon-send"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </form>   
+        </center>
+    </body>
+</html>

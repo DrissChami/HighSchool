@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Liste des élèves</title>
+</head>
+
+<body>
+    <% eleves.forEach(function(eleve){ %>
+        <p>
+            <%= eleve.prenom %>
+            <%= eleve.nom %>
+            <%= eleve.matricule %>
+        </p>
+    <% }); %>
+</body>
+</html>

@@ -1,0 +1,84 @@
+body{
+	color: black;
+	font-family: 'Avenir Next', 'Arial';
+    margin: 30px;
+}
+
+h1{
+	font-size: 6em;
+}
+
+p{
+	font-size: 1.4em;
+	text-align: justify;
+	width: 50%;
+	margin: 75px;
+}
+
+h2{
+	font-weight: bold;
+	font-size: 3.7em;
+    margin-top: 180px;
+    width: 55%;
+}
+
+#preview{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    background-position: center;
+    background-size: cover;
+    background-image: url('../moutain.png');
+}
+
+#CatchWord{
+    color: white;
+    width: 100%;
+    font-size: 100px;
+    font-family: "Avenir Next","Futura";
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+footer{
+    margin: 0;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding-top: 30px;
+}
+
+.foot{
+    margin: 0;
+    list-style: none;
+    width: 97%;
+}
+
+.foot li{
+    display: inline-block;
+    margin: auto;
+    width: 33%;
+    text-align: center;
+    padding: auto;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+    padding: 3px;
+    background-color: #ffff7e;
+}
+
+a:hover{
+    background-color: yellow;
+    text-decoration: none;
+    color: black;
+}
+
+ul{
+    width: 50%;
+    text-align: left;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet"> 
+
+    <link rel=stylesheet href="css/blog.css">
+    <title>Blog - Etienne Guerlain</title>
+</head>
+
+<body>
+    <header>
+        <div id="brand">
+            <a href="/">Etienne Guerlain</a>
+        </div>
+        <form method="post" action="/newsletter">
+            <input
+               type="email"
+               placeholder="Newsletter: john.doe@mail.com"
+               name="email" 
+               required
+            >
+        </form>
+    </header>
+    <div class="padder"></div>
+    <section>
+        <% billets.forEach(function(billet){ %>
+            <a class="card"
+               href="blog/<%= billet.keyword%>">
+                <div class="title">
+                    <p><%= billet.title %></p>
+                </div>
+            </a>
+        <% }); %>
+
+    </section>
+</body>
+</html>
