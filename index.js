@@ -39,23 +39,6 @@ app.get('/eleves', function(req, res){
     });
 });
 
-app.get('/eleve/:id', function(req, res){
-    bdd.query('SELECT * FROM eleve WHERE matricule = $1', [req.params.id], function(err, result){
-        if(err) return console.error("Erreur dans l'accès aux données d'un étudiant");
-
-        res.render('eleveProfil', {
-            eleve: (result.rows[0]) ? result.rows[0] : null
-        });
-    });
-});
-
-app.get('/adm', function(req, res){
-    res.render('admin');
-});
-
-app.get('/eleve/add', function(req, res){
-    res.render('ajoutEleve');
-})
 
 app.post('/eleve/add', function(req, res){
 
@@ -77,6 +60,36 @@ app.post('/eleve/add', function(req, res){
     
     res.redirect('/eleves');
     
+});
+
+app.get('/adm', function(req, res){
+    res.render('admin');
+});
+
+app.get('/eleve/add', function(req, res){
+    res.render('ajoutEleve');
+});
+
+app.get('/eleve/:id', function(req, res){
+    bdd.query('SELECT * FROM eleve WHERE matricule = $1', [req.params.id], function(err, result){
+        if(err) return console.error("Erreur dans l'accès aux données d'un étudiant");
+
+        res.render('eleveProfil', {
+            eleve: (result.rows[0]) ? result.rows[0] : null
+        });
+    });
+});
+
+app.put('/eleve/:id', function(req, res){          // Changements réalisés par un élève (il ne peut modifier que sa photo)
+
+    bdd.query("UPDATE eleve SET photo = $1 WHERE matricule = $2",
+        [
+            req.body.photo, 
+            req.params.id
+        ]    
+    );
+    
+    res.redirect('/eleve/' + req.params.id);
 });
 
 

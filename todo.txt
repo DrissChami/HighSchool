@@ -1,3 +1,4 @@
 Sécuriser les espaces avec les JavaScript Web Tokens :
 https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 
+Créer les BDD profs et admin, pour que seuls les profs puissent noter, etc...
