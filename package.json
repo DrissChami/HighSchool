@@ -10,14 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "base64image-to-file": "^1.2.0",
     "body-parser": "*",
     "ejs": "*",
     "express": "*",
     "express-favicon": "^2.0.0",
-    "markdown": "*",
-    "multer": "*",
-    "pg": "*",
-    "sparkpost": "^2.0.1"
+    "pg": "*"
   }
 }
