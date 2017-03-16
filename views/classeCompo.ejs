@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>## TO MODIFY WITH NAME OF CLASSE ##</title>
+</head>
+
+<body>
+    <% classe.forEach(function(row){ %>
+        <a href="/eleve/<%= row.matricule %>">
+            <%= row.matricule %>
+        </a><br>
+    <% }); %>
+</body>
+</html>

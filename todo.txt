@@ -1,3 +1,14 @@
+Créer une vue pour les données de santé (toutes les infos d'un élève)
+Créer une vue pour la liste des classes existantes
+Créer une vue pour la liste des élèves dans une classe
+
+Ordonner correctement les requêtes (par année, niveau)
+
+Fusionner santé et élève
+
+Ranger les routes dans les fichiers qui vont bien
+Développer les API de tous les scenarii
+Intégrer AngularJS
 Sécuriser les espaces avec les JavaScript Web Tokens :
 https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 

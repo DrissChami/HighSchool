@@ -49,6 +49,45 @@
         <p>
             Bulletin : <%= eleve.bulletin %>
         </p>
+    
+        <% if (sante != null) { %>
+            
+            <h1>Santé</h1>
+
+            <p>
+                Médecin : <%= sante.prenom_medecin + ' ' + sante.nom_medecin %>
+            </p>
+            <p>
+                Tél. médecin : <%= sante.telephone_medecin %>
+            </p>
+            <p>
+                Remarques : <%= sante.remarques_medicales %>
+            </p>
+    
+        <% } %>
+        
+        <% if (contacts != null) { %>
+        
+            <h1>Contacts</h1>
+            
+            <% contacts.forEach(function(contact){ %>
+                <p>
+                    <% if(!contact.prenom_contact) { %>
+                        <strong>Adresse personnelle</strong>
+                    <% } %>
+                    <%= contact.prenom_contact %> 
+                    <%= contact.nom_contact %> 
+                    <%= contact.adresse %> 
+                    <%= contact.cp %> 
+                    <%= contact.ville %> 
+                    <%= contact.telephone_domicile %> 
+                    <%= contact.telephone_mobile %> 
+                    <%= contact.email %> 
+                    
+                </p>
+            <% }); %>
+    
+        <% } %>
 
 
     

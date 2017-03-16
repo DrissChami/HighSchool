@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <% if(eleve != null) { %>
+        <title>Modification de : <%= eleve.prenom %> <%= eleve.nom %></title>
+    <% } else { %>
+        <title>-- Profil inexistant --</title>
+    <% } %>
+    
+</head>
+
+<body>
+    <% if(eleve != null){ %>
+        
+        <form method="post" action="<%= '/eleve/' + eleve.matricule + '/modify' %>">
+            
+            <input
+                   type="text" 
+                   name="nom" 
+                   value="<%= eleve.nom %>"
+                   required>
+            
+            <input 
+                   type="text" 
+                   name="prenom" 
+                   value="<%= eleve.prenom %>"
+                   required>
+            
+            <input 
+                   type="text" 
+                   name="date_naissance" 
+                   value="<%= eleve.date_naissance %>" 
+                   required>
+            
+            <input 
+                   type="text" 
+                   name="ville_naissance" 
+                   value="<%= eleve.ville_naissance %>"
+                   required>
+            
+            <input 
+                   type="text" 
+                   name="pays_naissance" 
+                   value="<%= eleve.pays_naissance %>"
+                   required>
+            
+            <input 
+                   type="text" 
+                   name="etablissement_precedent" 
+                   value="<%= eleve.etablissement_precedent %>">
+            
+            <input 
+                   type="file" 
+                   name="photo" 
+                   value="<%= eleve.photo %>">
+            
+            <input 
+                   type="text" 
+                   name="sexe" 
+                   value="<%= eleve.sexe %>"
+                   required>
+            
+            <input 
+                   type="text" 
+                   name="date_inscription" 
+                   value="<%= eleve.date_inscription %>"
+                   required>
+            
+            <input 
+                   type="file" 
+                   name="convocation" 
+                   value="<%= eleve.convocation %>">
+            
+            <input 
+                   type="file" 
+                   name="bulletin" 
+                   value="<%= eleve.bulletin %>">
+            
+            <button type="submit">Modifier l'élève</button>
+        </form>
+
+    
+    <%} else { %>
+    
+        <p>Ce matricule ne correspond à aucun élève de la base de donnée.</p>
+    
+    <% } %>
+    
+</body>
+</html>

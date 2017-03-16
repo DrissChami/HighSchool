@@ -70,14 +70,78 @@ app.get('/eleve/add', function(req, res){
     res.render('ajoutEleve');
 });
 
+app.get('/eleve/modify', function(req, res){
+    res.render('eleveModify');
+});
+
+app.post('/eleve/modify', function(req, res){
+    res.redirect('/eleve/' + req.body.matricule + '/modify');
+});
+
 app.get('/eleve/:id', function(req, res){
+    var matricule = req.params.id;
+    bdd.query('SELECT * FROM eleve WHERE matricule = $1', [matricule], function(err, result){
+        if(err) return console.error("Erreur dans l'accès aux données d'un étudiant");
+
+        if(result.rows[0] == null){
+            res.render('eleveProfil', {
+                eleve: null
+            });
+        }else{ // On a un élève, donc on récupère ses contacts, santé, ...
+            var eleve = result.rows[0];
+            
+            bdd.query('SELECT * FROM sante WHERE matricule = $1', [matricule], function(err, result){
+                if(err) return console.error("Erreur dans l'accès aux informations de santé de l'élève " + matricule);
+                
+                var sante = result.rows[0];
+                
+                bdd.query('SELECT * FROM contact WHERE matricule_eleve = $1', [matricule], function(err, result){
+                    if(err) return console.error("Erreur dans l'accès aux contacts de l'élève " + matricule);
+
+                    var contacts = result.rows;
+
+                    res.render('eleveProfil', {
+                        eleve: eleve,
+                        sante: sante,
+                        contacts: contacts
+                    });
+                });
+            });
+        }
+    });
+});
+
+app.get('/eleve/:id/modify', function(req, res){
     bdd.query('SELECT * FROM eleve WHERE matricule = $1', [req.params.id], function(err, result){
         if(err) return console.error("Erreur dans l'accès aux données d'un étudiant");
 
-        res.render('eleveProfil', {
+        res.render('eleveProfilModify', {
             eleve: (result.rows[0]) ? result.rows[0] : null
         });
     });
+});
+
+app.post('/eleve/:id/modify', function(req, res){
+
+    bdd.query(
+        "UPDATE eleve SET nom = $1, prenom = $2, date_naissance = $3, ville_naissance = $4, pays_naissance = $5, etablissement_precedent = $6, photo = $7, sexe = $8, date_inscription = $9, convocation = $10, bulletin = $11 WHERE matricule = $12",
+        [
+            req.body.nom, 
+            req.body.prenom, 
+            '1995-01-01', //req.body.date_naissance, 
+            req.body.ville_naissance, 
+            req.body.pays_naissance, 
+            req.body.etablissement_precedent, 
+            null,//            req.body.photo,
+            req.body.sexe,
+            '2014-04-04', //req.body.date_inscription, 
+            req.body.convocation, 
+            req.body.bulletin,
+            req.params.id
+        ]
+    );
+
+    res.redirect('/eleve/' + req.params.id + '/modify');
 });
 
 app.put('/eleve/:id', function(req, res){          // Changements réalisés par un élève (il ne peut modifier que sa photo)
@@ -93,10 +157,34 @@ app.put('/eleve/:id', function(req, res){          // Changements réalisés par
 });
 
 
+app.get('/classe', function(req, res){
+   
+    bdd.query('SELECT * FROM classe', function(err, result){
+        if(err) return console.error("Erreur dans l'accès à la liste des classes");
+
+        res.render('classes', {
+            classes: result.rows
+        });
+    });
+    
+});
+
+app.get('/classe/:id_classe', function(req, res){
+   
+    bdd.query('SELECT * FROM est_dans_classe WHERE id_classe = $1', [req.params.id_classe], function(err, result){
+        if(err) return console.error("Erreur dans l'accès à la liste des élèves d'une classe");
+
+        res.render('classeCompo', {
+            classe: result.rows
+        });
+    });
+    
+});
+
 // ############# SERVER START ########
 
 app.listen(process.env.PORT || 5000, function(){
-    console.log('Started on port ' + (process.env.PORT || '3000'));
+    console.log('Started on port ' + (process.env.PORT || '5000'));
     pg.connect(connect, function(err, client, done){
         if(err){
             return console.log("Erreur de connexion a la BDD");
