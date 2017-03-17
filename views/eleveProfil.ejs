@@ -22,6 +22,11 @@
         <p>
             Nom : <%= eleve.nom %>
         </p>
+        
+        <% if(classe) { %>
+            <h1><%= classe.niveau + ' ' + classe.nom %></h1>
+        <% } %>
+    
         <p>
             Date de naissance : <%= eleve.date_naissance %>
         </p>
@@ -50,31 +55,47 @@
             Bulletin : <%= eleve.bulletin %>
         </p>
     
-        <% if (sante != null) { %>
-            
-            <h1>Santé</h1>
 
-            <p>
-                Médecin : <%= sante.prenom_medecin + ' ' + sante.nom_medecin %>
-            </p>
-            <p>
-                Tél. médecin : <%= sante.telephone_medecin %>
-            </p>
-            <p>
-                Remarques : <%= sante.remarques_medicales %>
-            </p>
-    
-        <% } %>
+            
+        <h1>Santé</h1>
+
+        <p>
+            Médecin : <%= eleve.prenom_medecin + ' ' + eleve.nom_medecin %>
+        </p>
+        <p>
+            Tél. médecin : <%= eleve.telephone_medecin %>
+        </p>
+        <p>
+            Remarques : <%= eleve.remarques_medicales %>
+        </p>
+
         
         <% if (contacts != null) { %>
+    
+            <h1>Mon adresse :</h1>
+    
+            <% contacts.forEach(function(contact){
+                if(!contact.prenom_contact) { %>
+                    
+                <p>
+                    <%= contact.prenom_contact %> 
+                    <%= contact.nom_contact %> 
+                    <%= contact.adresse %> 
+                    <%= contact.cp %> 
+                    <%= contact.ville %> 
+                    <%= contact.telephone_domicile %> 
+                    <%= contact.telephone_mobile %> 
+                    <%= contact.email %> 
+                </p>
+            
+                <% }}) %>
         
             <h1>Contacts</h1>
             
             <% contacts.forEach(function(contact){ %>
                 <p>
-                    <% if(!contact.prenom_contact) { %>
-                        <strong>Adresse personnelle</strong>
-                    <% } %>
+                    <% if(contact.prenom_contact) { %>
+
                     <%= contact.prenom_contact %> 
                     <%= contact.nom_contact %> 
                     <%= contact.adresse %> 
@@ -85,7 +106,7 @@
                     <%= contact.email %> 
                     
                 </p>
-            <% }); %>
+            <% }}); %>
     
         <% } %>
 

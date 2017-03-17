@@ -1,5 +1,4 @@
 Permettre la mise à jour de l'adresse et des contacts
-Permettre la mise à jour de la santé (fusionner d'abord)
 Permettre la mise à jour des allergies
 Permettre la mise à jour des vaccins
 

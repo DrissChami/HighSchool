@@ -1,11 +1,11 @@
-Créer une vue pour les données de santé (toutes les infos d'un élève)
+Créer une vue pour les toutes les infos d'un élève (eleve+sante+contact+vaccin+allergie)
+Vue pour les contacts d'un eleve, autre pour ses vaccins, autre pour allergie
 Créer une vue pour la liste des classes existantes
 Créer une vue pour la liste des élèves dans une classe
 
+
+
 Ordonner correctement les requêtes (par année, niveau)
-
-Fusionner santé et élève
-
 Ranger les routes dans les fichiers qui vont bien
 Développer les API de tous les scenarii
 Intégrer AngularJS
@@ -13,3 +13,4 @@ Sécuriser les espaces avec les JavaScript Web Tokens :
 https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 
 Créer les BDD profs et admin, pour que seuls les profs puissent noter, etc...
+Sécuriser les routes (ex : update put sur eleve/:id ==> checker que :id existe)

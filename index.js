@@ -42,9 +42,7 @@ app.get('/eleves', function(req, res){
 
 app.post('/eleve/add', function(req, res){
 
-    console.log(req.body);
-    
-    bdd.query("INSERT INTO eleve (nom, prenom, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, photo, sexe, date_inscription, convocation, bulletin) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+    bdd.query("INSERT INTO eleve (nom, prenom, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, photo, sexe, date_inscription, convocation, bulletin, nom_medecin, prenom_medecin, telephone_medecin, remarques_medicales) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)",
         [req.body.nom, 
          req.body.prenom, 
          req.body.date_naissance, 
@@ -55,7 +53,12 @@ app.post('/eleve/add', function(req, res){
          true, 
          req.body.date_inscription, 
          null,
-         null]    
+         null,
+         req.body.nom_medecin,
+         req.body.prenom_medecin,
+         req.body.telephone_medecin,
+         req.body.remarques_medicales
+        ]    
     );
     
     res.redirect('/eleves');
@@ -89,21 +92,21 @@ app.get('/eleve/:id', function(req, res){
             });
         }else{ // On a un élève, donc on récupère ses contacts, santé, ...
             var eleve = result.rows[0];
-            
-            bdd.query('SELECT * FROM sante WHERE matricule = $1', [matricule], function(err, result){
-                if(err) return console.error("Erreur dans l'accès aux informations de santé de l'élève " + matricule);
-                
-                var sante = result.rows[0];
-                
-                bdd.query('SELECT * FROM contact WHERE matricule_eleve = $1', [matricule], function(err, result){
-                    if(err) return console.error("Erreur dans l'accès aux contacts de l'élève " + matricule);
 
-                    var contacts = result.rows;
+            bdd.query('SELECT * FROM contact WHERE matricule_eleve = $1', [matricule], function(err, result){
+                if(err) return console.error("Erreur dans l'accès aux contacts de l'élève " + matricule);
 
+                var contacts = result.rows;
+                
+                bdd.query('SELECT niveau, nom FROM classe WHERE id_classe IN (SELECT id_classe FROM est_dans_classe WHERE matricule = $1) AND annee = (SELECT MAX(annee) FROM (SELECT annee FROM classe WHERE id_classe IN (SELECT id_classe FROM est_dans_classe WHERE matricule = $1)) AS max)', [matricule], function(err, result){
+                    if(err) return console.error("Erreur dans l'obtention de la classe de l'élève " + matricule);
+                    
+                    var classe = result.rows[0];
+                    
                     res.render('eleveProfil', {
                         eleve: eleve,
-                        sante: sante,
-                        contacts: contacts
+                        contacts: contacts,
+                        classe: classe
                     });
                 });
             });
@@ -124,7 +127,7 @@ app.get('/eleve/:id/modify', function(req, res){
 app.post('/eleve/:id/modify', function(req, res){
 
     bdd.query(
-        "UPDATE eleve SET nom = $1, prenom = $2, date_naissance = $3, ville_naissance = $4, pays_naissance = $5, etablissement_precedent = $6, photo = $7, sexe = $8, date_inscription = $9, convocation = $10, bulletin = $11 WHERE matricule = $12",
+        "UPDATE eleve SET nom = $1, prenom = $2, date_naissance = $3, ville_naissance = $4, pays_naissance = $5, etablissement_precedent = $6, photo = $7, sexe = $8, date_inscription = $9, convocation = $10, bulletin = $11, nom_medecin = $12, prenom_medecin = $13, telephone_medecin = $14, remarques_medicales = $15 WHERE matricule = $16",
         [
             req.body.nom, 
             req.body.prenom, 
@@ -137,6 +140,10 @@ app.post('/eleve/:id/modify', function(req, res){
             '2014-04-04', //req.body.date_inscription, 
             req.body.convocation, 
             req.body.bulletin,
+            req.body.nom_medecin,
+            req.body.prenom_medecin,
+            req.body.telephone_medecin,
+            req.body.remarques_medicales,
             req.params.id
         ]
     );
@@ -144,14 +151,67 @@ app.post('/eleve/:id/modify', function(req, res){
     res.redirect('/eleve/' + req.params.id + '/modify');
 });
 
-app.put('/eleve/:id', function(req, res){          // Changements réalisés par un élève (il ne peut modifier que sa photo)
+app.put('/eleve/:id', function(req, res){          // Changements réalisés par un élève
+    
+    /*
+        Un élève peut modifier :
+        - Sa photo
+        - Ses coordonnées médicales
+        - Son adresses
+        - Les informations sur ses contacts
+        
+        ### FAUT-IL SEPARER LES ROUTES, AVEC UNE PAR MODIF, OU TOUT FAIRE EN UNE ? ###
+    */
+    
+    var matricule = req.params.id,
+        
+        photo = req.body.photo,
+        
+        //medecin = req.body.medecin, ################ CONTIENDRA TOUTES LES INFOS SANTE #########
+        nom_medecin = req.body.nom_medecin,
+        prenom_medecin = req.body.prenom_medecin,
+        telephone_medecin = req.body.telephone_medecin,
+        remarques_medicales = req.body.remarques_medicales,
+        
+        adresse = req.body.adresse,
+        
+        contacts = req.body.contacts;
 
-    bdd.query("UPDATE eleve SET photo = $1 WHERE matricule = $2",
-        [
-            req.body.photo, 
-            req.params.id
-        ]    
-    );
+    if(photo){
+        
+        bdd.query("UPDATE eleve SET photo = $1 WHERE matricule = $2",
+            [
+                req.body.photo, 
+                req.params.id
+            ]    
+        );
+    }
+    
+    if(nom_medecin){
+        
+        bdd.query("UPDATE eleve SET nom_medecin = $1, prenom_medecin = $2, telephone_medecin = $3, remarques_medicales = $4 WHERE matricule = $5",
+            [
+                req.body.nom_medecin,
+                req.body.prenom_medecin,
+                req.body.telephone_medecin,
+                req.body.remarques_medicales,
+                req.params.id
+            ]    
+        );
+        
+    }
+    
+    if(adresse){
+        
+            // MAJ adresse ###########
+        
+    }
+    
+    if(contacts){
+        
+        // MAJ contacts ############
+        
+    }
     
     res.redirect('/eleve/' + req.params.id);
 });
@@ -184,11 +244,14 @@ app.get('/classe/:id_classe', function(req, res){
 // ############# SERVER START ########
 
 app.listen(process.env.PORT || 5000, function(){
-    console.log('Started on port ' + (process.env.PORT || '5000'));
+    
     pg.connect(connect, function(err, client, done){
         if(err){
-            return console.log("Erreur de connexion a la BDD");
+            console.log("ERREUR de connexion a la BDD");
+            console.log("Veuillez démarrer le serveur Postgres");
+            process.exit();
         }
+        console.log("A l'écoute sur le port " + (process.env.PORT || '5000'));
         bdd = client;
     });
 });

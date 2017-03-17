@@ -79,6 +79,25 @@
                    name="bulletin" 
                    value="<%= eleve.bulletin %>">
             
+            <input 
+                   type="text" 
+                   name="nom_medecin" 
+                   value="<%= eleve.nom_medecin %>">
+            
+            <input 
+                   type="text" 
+                   name="prenom_medecin" 
+                   value="<%= eleve.prenom_medecin %>">
+            
+            <input 
+                   type="text" 
+                   name="telephone_medecin" 
+                   value="<%= eleve.telephone_medecin %>">
+            
+            <textarea 
+                type="text" 
+                name="remarques_medicales"><%= eleve.remarques_medicales %></textarea>
+            
             <button type="submit">Modifier l'élève</button>
         </form>
 
