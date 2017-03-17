@@ -103,11 +103,27 @@ app.get('/eleve/:id', function(req, res){
                     
                     var classe = result.rows[0];
                     
-                    res.render('eleveProfil', {
-                        eleve: eleve,
-                        contacts: contacts,
-                        classe: classe
+                    bdd.query('SELECT nom_vaccin FROM vaccin WHERE id_vaccin IN (SELECT id_vaccin FROM est_vaccine WHERE matricule = $1)', [matricule], function(err, result){
+                        if(err) return console.error("Erreur dans l'obtention des vaccins de l'élève " + matricule);
+                        
+                        var vaccins = result.rows;
+                        
+                        bdd.query('SELECT nom_allergie FROM allergie WHERE id_allergie IN (SELECT id_allergie FROM est_allergique WHERE matricule = $1)', [matricule], function(err, result){
+                            if(err) return console.error("Erreur dans l'obtention des allergies de l'élève " + matricule);
+                            
+                            var allergies = result.rows;
+                            
+                            res.render('eleveProfil', {
+                                eleve: eleve,
+                                contacts: contacts,
+                                classe: classe,
+                                vaccins: vaccins,
+                                allergies: allergies
+                            });
+                        });
+                        
                     });
+                    
                 });
             });
         }

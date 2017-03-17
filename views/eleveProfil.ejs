@@ -13,41 +13,34 @@
 </head>
 
 <body>
+    <div class="wrapper">
     <% if(eleve != null){ %>
         
 
-        <p>
-            Prénom : <%= eleve.prenom %>
+        <p id="name">
+            <%= eleve.prenom %> <%= eleve.nom %>
         </p>
-        <p>
-            Nom : <%= eleve.nom %>
-        </p>
+        
+        <img src="/photos/<%= eleve.matricule%>.jpg">
         
         <% if(classe) { %>
             <h1><%= classe.niveau + ' ' + classe.nom %></h1>
         <% } %>
     
         <p>
-            Date de naissance : <%= eleve.date_naissance %>
-        </p>
-        <p>
-            Ville de naissance : <%= eleve.ville_naissance %>
-        </p>
-        <p>
-            Pays de naissance : <%= eleve.pays_naissance %>
+            <% if(eleve.sexe){%> <%= 'Née'%> <%} else {%> <%= 'Né'%> <%}%> le <%= eleve.date_naissance %>
+            à <%= eleve.ville_naissance %>, <%= eleve.pays_naissance %>
         </p>
         <p>
             Etablissement précédent : <%= eleve.etablissement_precedent %>
         </p>
+
         <p>
-            Sexe : <%= eleve.sexe %>
+            Inscrit le <%= eleve.date_inscription %>
         </p>
-        <p>
-            Photo : <%= eleve.photo %>
-        </p>
-        <p>
-            Date d'inscription : <%= eleve.date_inscription %>
-        </p>
+        
+        <h1>Administration</h1>
+        
         <p>
             Convocation : <%= eleve.convocation %>
         </p>
@@ -109,6 +102,31 @@
             <% }}); %>
     
         <% } %>
+    
+        <% if(vaccins != null) { %>
+        
+        <h1>Mes vaccins</h1>
+    
+        <% vaccins.forEach(function(vaccin){ %>
+        
+        <p><%= vaccin.nom_vaccin %></p>
+        
+        <% });%>
+        
+        <% } %>
+
+
+        <% if(allergies != null) { %>
+        
+        <h1>Mes allergies</h1>
+    
+        <% allergies.forEach(function(allergie){ %>
+        
+        <p><%= allergie.nom_allergie %></p>
+        
+        <% });%>
+        
+        <% } %>
 
 
     
@@ -117,6 +135,6 @@
         <p>Ce matricule ne correspond à aucun élève de la base de donnée.</p>
     
     <% } %>
-    
+    </div>
 </body>
 </html>

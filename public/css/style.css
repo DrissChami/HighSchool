@@ -17,3 +17,24 @@ header{
 header p{
     margin: 0;
 }
+
+.wrapper{
+    margin: 0px 100px;
+    padding: 40px;
+    background-color: white;
+}
+
+#name{
+    font-weight: bold;
+    font-size: 2em;
+}
+
+h1{
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+img{
+    height: 100px;
+    border-radius: 100px; 
+}
