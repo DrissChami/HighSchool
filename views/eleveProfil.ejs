@@ -27,6 +27,8 @@
             <h1><%= classe.niveau + ' ' + classe.nom %></h1>
         <% } %>
     
+        <h1>Administration</h1>
+        
         <p>
             <% if(eleve.sexe){%> <%= 'Née'%> <%} else {%> <%= 'Né'%> <%}%> le <%= eleve.date_naissance %>
             à <%= eleve.ville_naissance %>, <%= eleve.pays_naissance %>
@@ -39,16 +41,14 @@
             Inscrit le <%= eleve.date_inscription %>
         </p>
         
-        <h1>Administration</h1>
+        <h1>Documents</h1>
         
         <p>
-            Convocation : <%= eleve.convocation %>
+            <a href="/document/convocation/<%= eleve.matricule %>.txt">Convocation</a>
         </p>
         <p>
-            Bulletin : <%= eleve.bulletin %>
+            <a target="_blank" href="/document/bulletin/<%= eleve.matricule %>.pdf">Bulletin</a>
         </p>
-    
-
             
         <h1>Santé</h1>
 
@@ -61,6 +61,32 @@
         <p>
             Remarques : <%= eleve.remarques_medicales %>
         </p>
+
+    
+        <% if(vaccins != null) { %>
+        
+        <h1>Mes vaccins</h1>
+    
+        <% vaccins.forEach(function(vaccin){ %>
+        
+        <p><%= vaccin.nom_vaccin %></p>
+        
+        <% });%>
+        
+        <% } %>
+
+
+        <% if(allergies != null) { %>
+        
+        <h1>Mes allergies</h1>
+    
+        <% allergies.forEach(function(allergie){ %>
+        
+        <p><%= allergie.nom_allergie %></p>
+        
+        <% });%>
+        
+        <% } %>
 
         
         <% if (contacts != null) { %>
@@ -102,32 +128,6 @@
             <% }}); %>
     
         <% } %>
-    
-        <% if(vaccins != null) { %>
-        
-        <h1>Mes vaccins</h1>
-    
-        <% vaccins.forEach(function(vaccin){ %>
-        
-        <p><%= vaccin.nom_vaccin %></p>
-        
-        <% });%>
-        
-        <% } %>
-
-
-        <% if(allergies != null) { %>
-        
-        <h1>Mes allergies</h1>
-    
-        <% allergies.forEach(function(allergie){ %>
-        
-        <p><%= allergie.nom_allergie %></p>
-        
-        <% });%>
-        
-        <% } %>
-
 
     
     <%} else { %>

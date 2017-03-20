@@ -1,12 +1,13 @@
 var http = require('http'),
     express = require('express'),
+    multer = require('multer'),
+    upload = multer({ dest: 'uploads/' }),
     bodyParser = require('body-parser'),
     pg = require('pg'),
     fs = require('fs'),
     bdd,
 
     app = express();
-
 
 app.use(express.static(__dirname+'/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,28 +41,65 @@ app.get('/eleves', function(req, res){
 });
 
 
-app.post('/eleve/add', function(req, res){
+var eleveUpload = upload.fields([{name: 'photo', maxCount: 1}, {name: 'convocation', maxCount: 1}, {name:'bulletin', maxCount: 1}]);
+         
+app.post('/eleve/add', eleveUpload, function(req, res){
 
-    bdd.query("INSERT INTO eleve (nom, prenom, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, photo, sexe, date_inscription, convocation, bulletin, nom_medecin, prenom_medecin, telephone_medecin, remarques_medicales) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)",
+    bdd.query("INSERT INTO eleve (nom, prenom, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, sexe, date_inscription, nom_medecin, prenom_medecin, telephone_medecin, remarques_medicales) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)",
         [req.body.nom, 
          req.body.prenom, 
          req.body.date_naissance, 
          req.body.ville_naissance, 
          req.body.pays_naissance, 
          req.body.etablissement_precedent, 
-         null, 
          true, 
          req.body.date_inscription, 
-         null,
-         null,
          req.body.nom_medecin,
          req.body.prenom_medecin,
          req.body.telephone_medecin,
          req.body.remarques_medicales
         ]    
     );
-    
-    res.redirect('/eleves');
+
+    bdd.query("SELECT MAX(matricule) FROM eleve", function(err, result){
+        if(err) return console.error("Erreur dans l'obtention du dernier ID d'élève");
+        
+        var ID = result.rows[0].max;
+        
+        // ### Upload photo, convocation, bulletin
+
+        if(req.files['photo'][0]){
+            
+            var tmp_path = req.files['photo'][0].path;
+            var target_path = './public/photos/' + ID + '.jpg'; // Accepte jpg, jpeg, png
+            
+            moveTo(tmp_path, target_path, function(){});
+
+        }
+        
+        if(req.files['convocation'][0]){
+            
+            var convoc = req.files['convocation'][0];
+            var extension = '.txt';
+            
+            var tmp_path = convoc.path;
+            var target_path = './public/document/convocation/' + ID + extension;
+            moveTo(tmp_path, target_path, function(){});
+        }
+        
+        if(req.files['bulletin'][0]){
+                        
+            var bulletin = req.files['bulletin'][0];
+            var extension = '.pdf';
+            
+            var tmp_path = bulletin.path;
+            var target_path = './public/document/bulletin/' + ID + extension;
+            moveTo(tmp_path, target_path, function(){});
+        }
+        
+        res.redirect('/eleve/' + ID);
+        
+    });
     
 });
 
@@ -167,72 +205,6 @@ app.post('/eleve/:id/modify', function(req, res){
     res.redirect('/eleve/' + req.params.id + '/modify');
 });
 
-app.put('/eleve/:id', function(req, res){          // Changements réalisés par un élève
-    
-    /*
-        Un élève peut modifier :
-        - Sa photo
-        - Ses coordonnées médicales
-        - Son adresses
-        - Les informations sur ses contacts
-        
-        ### FAUT-IL SEPARER LES ROUTES, AVEC UNE PAR MODIF, OU TOUT FAIRE EN UNE ? ###
-    */
-    
-    var matricule = req.params.id,
-        
-        photo = req.body.photo,
-        
-        //medecin = req.body.medecin, ################ CONTIENDRA TOUTES LES INFOS SANTE #########
-        nom_medecin = req.body.nom_medecin,
-        prenom_medecin = req.body.prenom_medecin,
-        telephone_medecin = req.body.telephone_medecin,
-        remarques_medicales = req.body.remarques_medicales,
-        
-        adresse = req.body.adresse,
-        
-        contacts = req.body.contacts;
-
-    if(photo){
-        
-        bdd.query("UPDATE eleve SET photo = $1 WHERE matricule = $2",
-            [
-                req.body.photo, 
-                req.params.id
-            ]    
-        );
-    }
-    
-    if(nom_medecin){
-        
-        bdd.query("UPDATE eleve SET nom_medecin = $1, prenom_medecin = $2, telephone_medecin = $3, remarques_medicales = $4 WHERE matricule = $5",
-            [
-                req.body.nom_medecin,
-                req.body.prenom_medecin,
-                req.body.telephone_medecin,
-                req.body.remarques_medicales,
-                req.params.id
-            ]    
-        );
-        
-    }
-    
-    if(adresse){
-        
-            // MAJ adresse ###########
-        
-    }
-    
-    if(contacts){
-        
-        // MAJ contacts ############
-        
-    }
-    
-    res.redirect('/eleve/' + req.params.id);
-});
-
-
 app.get('/classe', function(req, res){
    
     bdd.query('SELECT * FROM classe', function(err, result){
@@ -256,6 +228,39 @@ app.get('/classe/:id_classe', function(req, res){
     });
     
 });
+
+app.get('/eleve/:id/newPhoto', function(req, res){
+    res.render('newPhoto', {
+        matricule: req.params.id
+    });
+});
+
+
+app.post('/eleve/:id/newphoto', upload.single('photo'), function(req, res) {
+
+    // get the temporary location of the file
+    var tmp_path = req.file.path;
+    
+    // set where the file should actually exists
+    var target_path = './public/photos/' + req.params.id + '.jpg';
+    
+    moveTo(tmp_path, target_path, function(){
+        res.redirect('/eleve/' + req.params.id); 
+    });
+    
+});
+
+
+// ############# HELPER FUNCTIONS ########
+
+
+function moveTo(source, dest, callback){
+    fs.rename(source, dest, function(err){
+        if (err) throw err;
+
+        fs.unlink(source, callback);
+    });
+}
 
 // ############# SERVER START ########
 
