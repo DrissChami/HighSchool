@@ -2,31 +2,31 @@
 <html ng-app>
 <head>
     <meta charset="utf-8"/>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/index.css">
     
     <title>Collège Charles Dabert</title>
 </head>
 
 <body>
     
-    <header>
-        <p>Bienvenue au collège Charles Dabert</p>
-    </header>
+    <div id="coverImg">
+    </div>
     
+    <div id="central">
+        <form method="post" action="eleve">
+            <input type="text" name="id" placeholder="Identifiant (numéro étudiant)">
+            <input type="password" name="password" placeholder="Mot de passe (Vaut le matricule)">
+            <button type="submit">Accéder à mon espace</button>
+            <p>
+                <a href="adm">Administration</a>
+                <a href="#">Professeurs</a>
+            </p>
+        </form>
+    </div>
+
     
-    <p>
-        <a href="adm">Espace administration</a>
-    </p>
-    <p>
-        <a href="#">Espace professeurs</a>
-    </p>
+<!--    
     
-    <form method="post" action="eleve">
-        <p>Connexion étudiante :</p>
-        <input type="text" name="id" placeholder="Identifiant (nom de famille)">
-        <input type="password" name="password" placeholder="Mot de passe (matricule)">
-        <button type="submit">Accéder à mon espace</button>
-    </form>
-    
+    -->
 </body>
 </html>
