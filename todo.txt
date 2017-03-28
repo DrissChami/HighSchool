@@ -1,7 +1,12 @@
+Ranger le requêtes SQL dans un fichier
+Refactorer index.js en plusieurs fichierse (un par routes + server)
+
+Refactorer ejs (partials, etc...)
+
 Ordonner correctement les requêtes (par année, niveau)
-Ranger les routes dans les fichiers qui vont bien
+
 Développer les API de tous les scenarii
-Intégrer AngularJS
+
 Sécuriser les espaces avec les JavaScript Web Tokens :
 https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens
 

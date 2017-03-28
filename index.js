@@ -22,9 +22,25 @@ app.get('/', function(req, res){
     res.render('index');
 });
 
+app.get('/try/administration', function(req, res){
+    res.render('eleve/administration');
+});
+
+app.get('/try/scolarite', function(req, res){
+    res.render('eleve/scolarite');
+});
+
+app.get('/try/sante', function(req, res){
+    res.render('eleve/sante');
+});
+
+app.get('/try/contacts', function(req, res){
+    res.render('eleve/contacts');
+});
+
 app.post('/eleve', function(req, res){
     res.redirect('/eleve/' + req.body.id);
-});
+})
 
 app.get('/eleves', function(req, res){
 
@@ -52,7 +68,7 @@ app.post('/eleve/add', eleveUpload, function(req, res){
          req.body.ville_naissance, 
          req.body.pays_naissance, 
          req.body.etablissement_precedent, 
-         true, 
+         true,
          req.body.date_inscription, 
          req.body.nom_medecin,
          req.body.prenom_medecin,
@@ -68,7 +84,7 @@ app.post('/eleve/add', eleveUpload, function(req, res){
         
         // ### Upload photo, convocation, bulletin
 
-        if(req.files['photo'][0]){
+        if(req.files['photo'] && req.files['photo'][0]){
             
             var tmp_path = req.files['photo'][0].path;
             var target_path = './public/photos/' + ID + '.jpg'; // Accepte jpg, jpeg, png
@@ -77,7 +93,7 @@ app.post('/eleve/add', eleveUpload, function(req, res){
 
         }
         
-        if(req.files['convocation'][0]){
+        if(req.files['convocation'] && req.files['convocation'][0]){
             
             var convoc = req.files['convocation'][0];
             var extension = '.txt';
@@ -87,7 +103,7 @@ app.post('/eleve/add', eleveUpload, function(req, res){
             moveTo(tmp_path, target_path, function(){});
         }
         
-        if(req.files['bulletin'][0]){
+        if(req.files['bulletin'] && req.files['bulletin'][0]){
                         
             var bulletin = req.files['bulletin'][0];
             var extension = '.pdf';
@@ -107,6 +123,10 @@ app.get('/adm', function(req, res){
     res.render('admin');
 });
 
+app.get('/mymy', function(req, res){
+   console.log('Bonjour Mymy !'); 
+});
+
 app.get('/eleve/add', function(req, res){
     res.render('ajoutEleve');
 });
@@ -118,6 +138,143 @@ app.get('/eleve/modify', function(req, res){
 app.post('/eleve/modify', function(req, res){
     res.redirect('/eleve/' + req.body.matricule + '/modify');
 });
+
+app.get('/eleve/:id', function(req, res){
+    res.redirect('/eleve/' + req.params.id + '/administration');
+});
+
+app.get('/eleve/:id/administration', function(req, res){
+
+    var eleve = {};
+    eleve.matricule = req.params.id;
+    
+    bdd.query('SELECT matricule, prenom, nom, photo, sexe, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, date_inscription FROM eleve WHERE matricule = $1', [eleve.matricule], function(err, result){
+        if(err) return console.error("Erreur dans l'accès aux données admin de l'élève " + eleve.matricule);
+        
+        if(result.rows[0] == null){
+            res.render('eleve/administration', {
+                eleve: null
+            });
+        } else {
+            eleve = result.rows[0];
+            
+            bdd.query('SELECT * FROM contact WHERE matricule_eleve = $1 AND nom_contact IS NULL', [eleve.matricule], function(err, result){
+                if(err) return console.error("Erreur dans l'accès à l'adresse de l'élève " + eleve.matricule);
+                
+                eleve.adresse = null;
+
+                if(result.rows[0]){
+                    eleve.adresse = result.rows[0];
+                }
+                
+                bdd.query('SELECT niveau, nom FROM classe WHERE id_classe IN (SELECT id_classe FROM est_dans_classe WHERE matricule = $1) AND annee = (SELECT MAX(annee) FROM (SELECT annee FROM classe WHERE id_classe IN (SELECT id_classe FROM est_dans_classe WHERE matricule = $1)) AS max)', [eleve.matricule], function(err, result){
+                    if(err) return console.error("Erreir dans l'obtention de la classe de l'élève " + eleve.matricule);
+                    
+                    eleve.classe = null;
+                    if(result.rows[0])
+                        eleve.classe = result.rows[0];
+
+                    res.render('eleve/administration', {
+                        eleve: eleve
+                    });
+                });
+            });
+        }
+    });
+});
+
+app.get('/eleve/:id/sante', function(req, res){
+
+    var eleve = {};
+    matricule = req.params.id;
+    
+    bdd.query('SELECT nom, prenom, nom_medecin, prenom_medecin, telephone_medecin, remarques_medicales FROM eleve WHERE matricule = $1', [matricule], function(err, result){
+        if(err) return console.error("Erreur dans l'accès aux données médicales de l'élève " + matricule);
+        
+        if(result.rows[0] == null){
+            res.render('eleve/sante', {
+                eleve: null
+            });
+        } else {
+            eleve = result.rows[0];
+            eleve.matricule = matricule;
+            
+            bdd.query('SELECT nom_vaccin FROM vaccin WHERE id_vaccin IN (SELECT id_vaccin FROM est_vaccine WHERE matricule = $1)', [matricule], function(err, result){
+                if(err) return console.error("Erreur dans l'obtention des vaccins de l'élève " + matricule);
+
+                eleve.vaccins = result.rows;
+
+                bdd.query('SELECT nom_allergie FROM allergie WHERE id_allergie IN (SELECT id_allergie FROM est_allergique WHERE matricule = $1)', [matricule], function(err, result){
+                    if(err) return console.error("Erreur dans l'obtention des allergies de l'élève " + matricule);
+
+                    eleve.allergies = result.rows;
+                    
+                    res.render('eleve/sante', {
+                        eleve: eleve
+                    });
+                });
+            });
+        }
+    });
+});
+
+app.get('/eleve/:id/scolarite', function(req, res){
+
+    var eleve = {};
+    matricule = req.params.id;
+    
+    bdd.query('SELECT nom, prenom, bulletin, convocation FROM eleve WHERE matricule = $1', [matricule], function(err, result){
+        if(err) return console.error("Erreur dans l'accès aux données de l'élève " + matricule);
+        
+        if(result.rows[0] == null){
+            res.render('eleve/scolarite', {
+                eleve: null
+            });
+        } else {
+            eleve = result.rows[0];
+            eleve.matricule = matricule;
+
+            res.render('eleve/scolarite', {
+                eleve: eleve
+            });
+        }
+    });
+});
+
+app.get('/eleve/:id/contacts', function(req, res){
+
+    var eleve = {};
+    matricule = req.params.id;
+    
+    bdd.query('SELECT nom, prenom FROM eleve WHERE matricule = $1', [matricule], function(err, result){
+        if(err) return console.error("Erreur dans l'accès aux données de l'élève " + matricule);
+        
+        if(result.rows[0] == null){
+            res.render('eleve/contacts', {
+                eleve: null
+            });
+        } else {
+            eleve = result.rows[0];
+            eleve.matricule = matricule;
+            
+            bdd.query('SELECT * FROM contact WHERE matricule_eleve = $1 AND nom_contact IS NOT NULL', [matricule], function(err, result){
+                if(err) return console.error("Erreur dans l'accès aux contacts de l'élève "+ matricule);
+                
+                eleve.contacts = result.rows;
+                for(var i = 0; i < eleve.contacts.length; i++){
+                    eleve.contacts[i].matricule = i;
+                }
+                
+                res.render('eleve/contacts', {
+                    eleve: eleve
+                });
+            });
+        }
+    });
+});
+
+
+/*
 
 app.get('/eleve/:id', function(req, res){
     var matricule = req.params.id;
@@ -167,6 +324,8 @@ app.get('/eleve/:id', function(req, res){
         }
     });
 });
+
+*/
 
 app.get('/eleve/:id/modify', function(req, res){
     bdd.query('SELECT * FROM eleve WHERE matricule = $1', [req.params.id], function(err, result){

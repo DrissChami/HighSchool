@@ -1,0 +1,272 @@
+html{
+    margin: 0;
+    height: 100%;
+}
+
+body{
+    margin: 0;
+    height: 100%;
+    display: flex;
+}
+
+#padder{
+    flex: 1 270px;
+}
+
+aside   {
+    position: fixed;
+    height: 100%;
+    background-color: royalblue;
+    color: white;
+    padding: 20px;
+}
+
+aside a{
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: white;
+}
+
+aside a:hover{
+    background-color: rgba(255,255,255,0.2);
+}
+
+#name{
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+#matricule{
+    font-size: 0.7em;
+    display: block;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 250px);
+    padding: 20px;
+    align-items: center;
+}
+
+#hey{
+    color: royalblue;
+    font-size: 2em;
+    text-align: center;
+}
+
+#classe{
+    font-size: 1.5em;
+    color: royalblue;
+}
+
+[title~=profilPicture]{
+    width: 100px;
+    height: auto;
+    border-radius: 55px;
+    border: solid 3px white;
+    margin-top: 0px;
+    margin-bottom: 3px;
+}
+
+[title~=profilPicture]:hover{
+    box-shadow: 0px 0px 10px grey;
+    border: solid 3px royalblue;
+}
+
+[title~=profilPicture]:active{
+    margin-top: 3px;
+    margin-bottom: 0px;
+}
+
+.row{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.card{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    color: #333;
+}
+
+.clickable:hover{
+    background-color: #eee;
+}
+
+h1{
+    width: 80%;
+    padding-left: 50px;
+    color: royalblue;
+    font-weight: normal;
+    font-size: 1.4em;
+}
+
+.button{
+    display: block;
+    text-decoration: none;
+    background-color: royalblue;
+    color: white;
+    border: none;
+    font-size: 1em;
+    padding: 15px;
+    margin: 30px;
+}
+
+.button:hover{
+    background-color: #3c5fc9;
+}
+
+.button:active{
+    margin: 33px;
+    margin-bottom: 27px;
+}
+
+.overlay{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.modal{
+    background-color: #fff;
+    width: 40%;
+}
+
+.modal header{
+    background-color: royalblue;
+}
+
+.modal header h1{
+    color: white;
+    margin: 0;
+    padding: 15px;
+    padding-left: 40px;
+}
+
+.modal_content{
+    display: flex;
+    flex-direction: column;
+}
+
+.modal h2{
+    font-size: 1em;
+    font-weight: normal;
+    padding-left: 40px;
+    margin: 30px;
+}
+
+#newphoto{
+    color: white;
+    font-size: 1em;
+    background-color: royalblue;
+    margin: 50px;
+    width: 80%;
+    padding: 50px;
+}
+
+#newphoto:hover{
+    background-color: #3c5fc9;
+}
+
+#newphoto:active{
+    margin-top: 53px;
+    margin-bottom: 47px;
+}
+
+.cancel_button{
+    display: block;
+    border: solid 1px royalblue;
+    border-radius: 3px;
+    color: royalblue;
+    padding: 20px;
+    margin: 20px;
+    text-decoration: none;
+}
+
+.submit_button{
+    display: block;
+    background-color: royalblue;
+    text-decoration: none;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+}
+
+.submit_button:hover{
+    background-color: #3c5fc9;
+}
+
+.cancel_button:hover{
+    border-color: #3c5fc9;
+    color: #3c5fc9;
+    background-color: #eee;
+}
+.submit_button:active, .cancel_button:active{
+    margin-top: 23px;
+    margin-bottom: 17px;
+}
+
+.form_bottom{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.modal_adresse{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+}
+
+.modal_adresse input{
+    padding: 10px;
+    font-size: 1em;
+    border: solid 1px royalblue;
+    color: #222;
+    padding-left: 20px;
+}
+
+.modal_adresse .rue{
+    width: 100%;
+    border-bottom: none;
+}
+
+.modal_adresse .cp_ville{
+    display: flex;
+    width: 100%;
+    background-color: pink;
+}
+
+.modal_adresse .cp_ville input{
+    width: 50%;
+}
+
+.modal_adresse .cp{
+    border-right: none;
+}
+
+.rem_med{
+    padding: 20px;
+    resize: none;
+    margin-left: 60px;
+    width: 80%;
+    height: 200px;
+    font-size: 0.8em;
+    border: solid 1px grey;
+    border-radius: 3px;
+}

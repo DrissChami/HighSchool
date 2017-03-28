@@ -1,0 +1,42 @@
+<div class="overlay" id="brandnewcontact" style="display: none">
+    <div class="modal">
+        
+        <header>
+            <h1>Nouveau contact</h1>
+        </header>
+        
+        <div class="modal_content">
+            <h2>Précisez les informations de contact</h2>
+
+            <form>
+  
+                <div class="modal_adresse">
+                    <input class="rue" type="text" name="prenom_contact" placeholder="Prénom du contact">
+                    <input type="text" name="nom_contact" placeholder="Nom du contact">
+                    
+                    <p><br></p>
+                    
+                    <input class="rue" type="text" placeholder="N° et rue">
+                    <div class="cp_ville">
+                        <input class="cp" type="text" placeholder="Code postal">
+                        <input type="text" placeholder="Ville">
+                    </div>
+                    
+                    <p><br></p>
+                    
+                    <div class="modal_adresse">
+                        <input class="rue" type="text" name="telephone_domicile" placeholder="Téléphone du domicile">
+                        <input class="rue" type="text" name="telephone_mobile" placeholder="Téléphone mobile">
+                        <input type="text" name="email" placeholder="Adresse mail">
+                    </div>
+                </div>
+
+                <div class="form_bottom">
+                    <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('brandnewcontact');">Annuler</a>
+                    <a class="submit_button" href="#">Modifier</a>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</div>
