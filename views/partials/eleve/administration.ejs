@@ -28,14 +28,14 @@
             <% if(eleve.adresse) { %>
             
             <div class="adresse">
-                <p class="rue"><%= eleve.adresse.adresse %></p>
-                <p class="ville"><%= eleve.adresse.cp+' '+eleve.adresse.ville %></p>
+                <p class="rue"><% if(eleve.adresse.adresse) {%> <%=eleve.adresse.adresse%> <%}%></p>
+                <p class="ville"><% if(eleve.adresse.adresse) {%><%= eleve.adresse.cp+' '+eleve.adresse.ville %><%}%></p>
             </div>
             
             <% } else { %>
                 
                <p>Aucune adresse enregistrée.</p>
-                <a class="button" onclick="javascript:toggle_modal('newadresse_modal');">Ajouter une adresse.</a>
+                <a class="button" onclick="javascript:toggle_modal('brandnewadresse_modal');">Ajouter une adresse.</a>
             <% } %>
             
         </div>
@@ -44,15 +44,17 @@
             <h1>Contact</h1>
 
             <div class="contact">
-                <% if(eleve.adresse){%>
+                <% if(eleve.adresse && (eleve.adresse.telephone_domicile || eleve.adresse.telephone_mobile || eleve.adresse.email)){%>
                 
                 <p class="phone">Dom. : <%= eleve.adresse.telephone_domicile %></p>
                 <p class="phone">Mob. : <%= eleve.adresse.telephone_mobile %></p>
                 <p class="email">Email : <%= eleve.adresse.email %></p>
                 
                 <%} else {%>
-                    <p>Pas d'informations de contact.</p>
-                    <a class="button"  onclick="javascript:toggle_modal('newcontact_modal');"></a>
+
+                    <p>
+                        <a class="button">Ajouter un moyen de contact</a>
+                    </p>
                 <%}%>
             </div>
         </div>
@@ -82,7 +84,6 @@
 </section>
 
 <!-- ### MODALS ### -->
-
 
 <% include modal/newphoto %>
 

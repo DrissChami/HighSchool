@@ -11,10 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "*",
+    "cookie-parser": "^1.4.3",
     "ejs": "*",
     "express": "*",
     "express-favicon": "^2.0.0",
     "multer": "^1.3.0",
+    "nl2br": "0.0.3",
     "pg": "*"
   }
 }

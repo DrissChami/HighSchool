@@ -2,7 +2,9 @@
     <head>
         <% include ../partials/head %>
         <link rel="stylesheet" href="/css/profilEleve.css">
-        <title><%= eleve.prenom + ' ' + eleve.nom %></title>
+        <% if(eleve) { %>
+            <title><%= eleve.prenom + ' ' + eleve.nom %></title>
+        <% } %>
     </head>
 
     <body>

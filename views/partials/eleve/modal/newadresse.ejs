@@ -1,3 +1,4 @@
+<% if(eleve.adresse) { %>
 <div class="overlay" id="newadresse_modal" style="display: none">
     <div class="modal">
         
@@ -8,21 +9,56 @@
         <div class="modal_content">
             <h2>Modifier votre adresse</h2>
 
-            <form>
+            <form id="adresse_form" action="/eleve/<%= eleve.matricule %>/newadresse" method="post">
                 <div class="modal_adresse">
-                    <input class="rue" type="text" value="<%= eleve.adresse.adresse%>" placeholder="N° et rue">
+                    <input class="rue" type="text" value="<%= eleve.adresse.adresse%>" placeholder="N° et rue" name="adresse">
                     <div class="cp_ville">
-                        <input class="cp" type="text" value="<%= eleve.adresse.cp%>" placeholder="Code postal">
-                        <input type="text" value="<%= eleve.adresse.ville%>" placeholder="Ville">
+                        <input class="cp" type="text" value="<%= eleve.adresse.cp%>" placeholder="Code postal" name="cp">
+                        <input type="text" value="<%= eleve.adresse.ville%>" placeholder="Ville" name="ville">
                     </div>
                 </div>
                 
                 <div class="form_bottom">
                     <a class="cancel_button" type="submit"  onclick="javascript:toggle_modal('newadresse_modal');">Annuler</a>
-                    <a class="submit_button" href="#">Modifier</a>
+                    
+                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('adresse_form').submit(); return false;">Modifier</a>
                 </div>
             </form>
         </div>
         
     </div>
 </div>
+
+<% } else { %>
+    
+<div class="overlay" id="brandnewadresse_modal" style="display: none">
+    <div class="modal">
+        
+        <header>
+            <h1>Adresse</h1>
+        </header>
+        
+        <div class="modal_content">
+            <h2>Indiquer votre adresse</h2>
+
+            <form id="newadresse_form" action="/eleve/<%= eleve.matricule %>/brandnewadresse" method="post">
+                <div class="modal_adresse">
+                    <input class="rue" type="text" placeholder="N° et rue" name="adresse">
+                    <div class="cp_ville">
+                        <input class="cp" type="text" placeholder="Code postal" name="cp">
+                        <input type="text" placeholder="Ville" name="ville">
+                    </div>
+                </div>
+                
+                <div class="form_bottom">
+                    <a class="cancel_button" type="submit"  onclick="javascript:toggle_modal('brandnewadresse_modal');">Annuler</a>
+                    
+                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('newadresse_form').submit(); return false;">Modifier</a>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</div>
+
+<%}%>

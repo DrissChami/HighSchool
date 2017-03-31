@@ -8,7 +8,7 @@
         <div class="modal_content">
             <h2>Modifier vos informations de contact</h2>
 
-            <form>
+            <form id="contact_form_<%= contact.matricule %>" action="/eleve/<%= eleve.matricule %>/newcontact" method="post">
   
                 <div class="modal_adresse">
                     <input class="rue" type="text" name="prenom_contact" value="<%= contact.prenom_contact %>" placeholder="Prénom du contact">
@@ -33,7 +33,8 @@
 
                 <div class="form_bottom">
                     <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('newcontacts_modal_<%= contact.matricule%>');">Annuler</a>
-                    <a class="submit_button" href="#">Modifier</a>
+                    
+                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('contact_form_<%= contact.matricule %>').submit(); return false;">Modifier</a>
                 </div>
             </form>
         </div>

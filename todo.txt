@@ -1,3 +1,5 @@
+Créer automatiquement la ligne de l'élève dans la BDD contact lors de la création d'un élève pour ne faire que des updates
+
 Ranger le requêtes SQL dans un fichier
 Refactorer index.js en plusieurs fichierse (un par routes + server)
 
