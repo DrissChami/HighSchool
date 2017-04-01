@@ -1,22 +1,23 @@
 {
-  "name": "otzup",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "*",
-    "cookie-parser": "^1.4.3",
-    "ejs": "*",
-    "express": "*",
-    "express-favicon": "^2.0.0",
-    "multer": "^1.3.0",
-    "nl2br": "0.0.3",
-    "pg": "*"
-  }
+    "name": "otzup",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "*",
+        "cookie-parser": "^1.4.3",
+        "ejs": "*",
+        "express": "*",
+        "express-favicon": "^2.0.0",
+        "multer": "^1.3.0",
+        "nl2br": "0.0.3",
+        "pg": "*",
+        "jsonwebtoken": "*"
+    }
 }
