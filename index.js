@@ -58,12 +58,6 @@ app.listen(process.env.PORT || 5000, function () {
 });
 
 
-// ###### ROUTE DE TEST ######
-
-var test = express.Router();
-
-test.get('/', function (re))
-
 // ###### ROUTE GENERALE & AUTHENTIFICATION ######
 
 var root = express.Router();
