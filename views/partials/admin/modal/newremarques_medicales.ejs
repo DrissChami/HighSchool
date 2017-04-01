@@ -1,0 +1,25 @@
+<div class="overlay" id="remarques_medicales_modal" style="display: none">
+    <div class="modal">
+        
+        <header>
+            <h1>Remarques médicales</h1>
+        </header>
+        
+        <div class="modal_content">
+            <h2>Modifier vos remarques médicales</h2>
+
+            <form id="rem_med_form"
+                  action="/eleve/<%= eleve.matricule %>/rem_med"
+                  method="post">
+                    <textarea class="rem_med" placeholder="Remarques médicales..." name="rem_med"><%= eleve.remarques_medicales %></textarea>
+
+                <div class="form_bottom">
+                    <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('remarques_medicales_modal');">Annuler</a>
+                    
+                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('rem_med_form').submit(); return false;">Modifier</a>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</div>
