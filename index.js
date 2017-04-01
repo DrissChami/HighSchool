@@ -1,5 +1,7 @@
 // ###### VAR INITIALIZATION ######
 
+console.log("--- DEMARRAGE");
+
 var http = require('http'),
     express = require('express'),
     cookieParser = require('cookie-parser'),
@@ -15,13 +17,20 @@ var http = require('http'),
     bdd,
     app = express();
 
+
+console.log("--- ALL VAR INITIALIZED");
+
 var connect = (process.env.DATABASE_URL) ? process.env.DATABASE_URL : "postgres://etienne:@localhost/";
+
+console.log("--- DB CONNECTED");
 
 
 // ###### APP CONFIGURATION ######
 
 app.set('superSecret', 'M0t_2_passe_KI_tue');
 app.set('view engine', 'ejs');
+
+console.log("--- APP GLOBAL VAR SET");
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
@@ -30,6 +39,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+console.log("--- APP PARSERS SET");
 
 // ###### HELPER FUNCTIONS ######
 
@@ -41,12 +51,18 @@ function moveTo(source, dest, callback) {
     });
 }
 
+console.log("--- ");
 
 // ###### SERVER START ######
 
 app.listen(process.env.PORT || 5000, function () {
 
+    console.log("--- ENTERED APP LISTENING PROCESS");
+
     pg.connect(connect, function (err, client, done) {
+
+        console.log("--- DB CLIENT PROCESS");
+
         if (err) {
             console.log("ERREUR de connexion a la BDD");
             console.log("Veuillez démarrer le serveur Postgres");
