@@ -1,0 +1,31 @@
+<div class="overlay" id="newmedecin_modal" style="display: none">
+    <div class="modal">
+        
+        <header>
+            <h1>Médecin traitant</h1>
+        </header>
+        
+        <div class="modal_content">
+            <h2>Modifier les coordonnées de votre médecin</h2>
+
+            <form id="medecin_form"
+                  action="/eleve/<%= eleve.matricule %>/newmedecin"
+                  method="post">
+                <div class="modal_adresse">
+                    <input class="rue" type="text" value="<%= eleve.telephone_medecin%>" placeholder="N° de téléphone" name="telephone_medecin">
+                    <div class="cp_ville">
+                        <input class="cp" type="text" value="<%= eleve.prenom_medecin%>" placeholder="Prénom" name="prenom_medecin">
+                        <input type="text" value="<%= eleve.nom_medecin%>" placeholder="Nom" name="nom_medecin">
+                    </div>
+                </div>
+                
+                <div class="form_bottom">
+                    <a class="cancel_button" type="submit"onclick="javascript:toggle_modal('newmedecin_modal');">Annuler</a>
+                    
+                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('medecin_form').submit(); return false;">Modifier</a>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</div>

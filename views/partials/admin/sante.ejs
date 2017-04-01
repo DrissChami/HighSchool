@@ -1,0 +1,81 @@
+<% if(eleve == null){%>
+
+<section>
+    
+    <p id="hey">Ce numéro n'est associé à aucun étudiant</p>
+    
+</section>
+
+<%} else { %>
+
+
+<section>
+    
+    <p id="hey">Santé</p>
+    
+    
+    <div class="row">
+
+        <div class="clickable card"  onclick="javascript:toggle_modal('newmedecin_modal');">
+            <h1>Médecin</h1>
+
+            <div>
+                <p><%= eleve.prenom_medecin+' '+eleve.nom_medecin %></p>
+                <p><%= eleve.telephone_medecin %></p>
+            </div>
+        </div>
+        
+        <div class="clickable card">
+            <h1>Vaccins</h1>
+
+            <div>
+                <% if(eleve.vaccins && eleve.vaccins[0] == null) { %>
+                    <p>Aucun vaccin enregistré.</p>
+                <% } else { eleve.vaccins.forEach(function(vaccin){%>
+                <p><%= vaccin.nom_vaccin %></p>
+                <%});    
+                }%>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="row">
+
+        <div class="clickable card">
+            <h1>Allergies</h1>
+            
+            <div>
+                <% if(eleve.allergies && eleve.allergies[0] == null) { %>
+                    <p>Aucune allergie enregistrée.</p>
+                <% } else { eleve.allergies.forEach(function(allergie){ %>
+                    <p><%=allergie.nom_allergie%></p>
+                <% });
+                    
+                }%>
+            </div>
+    
+        </div>
+        
+        <div class="clickable card" onclick="javascript:toggle_modal('remarques_medicales_modal');">
+            <h1>Remarques médicales</h1>
+            
+            <% if(eleve.remarques_medicales == null) {%>
+               <p>Aucune remaque médicale enregistrée.</p>
+                <a class="button">Ajouter une remarque médicale</a>
+            <% } else { %>
+                <p><%- eleve.remarques_medicales %></p>
+
+            <% }%>
+            
+        </div>
+        
+    </div>
+
+</section>
+
+<% include modal/newmedecin %>
+
+<% include modal/newremarques_medicales %>
+
+<% } %>

@@ -1,0 +1,23 @@
+<div class="overlay" id="newphoto_modal" style="display: none">
+    <div class="modal">
+        
+        <header>
+            <h1>Photo</h1>
+        </header>
+        
+        <div class="modal_content">
+            <h2>Choisir une nouvelle photo</h2>
+
+            <form id="photo_form"
+                  action="/eleve/<%= eleve.matricule %>/newphoto" method="post" enctype="multipart/form-data">
+                <input id="newphoto" type="file" name="photo">
+                <div class="form_bottom">
+                    <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('newphoto_modal');">Annuler</a>
+
+                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('photo_form').submit(); return false;">Modifier</a>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</div>
