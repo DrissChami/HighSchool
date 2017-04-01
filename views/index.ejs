@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <link rel="stylesheet" href="/css/index.css">
-    
+
     <title>Collège Charles Dabert</title>
 </head>
 
 <body>
-    
+
     <div id="coverImg">
     </div>
-    
+
     <div id="central">
+
         <form method="post" action="/login">
-            <input type="text" name="identifiant" placeholder="Identifiant (numéro étudiant)">
-            <input type="password" name="password" placeholder="Mot de passe (Vaut le matricule)">
-            <button type="submit">Accéder à mon espace</button>
-            <p>
-                <a href="adm">Administration</a>
-                <a href="#">Professeurs</a>
-            </p>
-            <input type="hidden" name="token">
+
+            <% if(error) {%>
+                <p id="login_error">Erreur d'identifiant / de mot de passe</p>
+                <%}%>
+
+                    <input type="text" name="identifiant" placeholder="Identifiant (numéro étudiant)" required>
+                    <input type="password" name="password" placeholder="Mot de passe (Vaut le matricule)" required>
+                    <button type="submit">Accéder à mon espace</button>
+                    <p>
+                        <a href="adm">Administration</a>
+                        <a href="#">Professeurs</a>
+                    </p>
+                    <input type="hidden" name="token">
         </form>
     </div>
-    
-    <script>
-
-    </script>
 
 </body>
+
 </html>

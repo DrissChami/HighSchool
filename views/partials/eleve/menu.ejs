@@ -5,12 +5,13 @@
                 <%= eleve.prenom+' '+eleve.nom %>
             </span>
             <span id="matricule">N° étudiant : <%= eleve.matricule %></span>
-        <%} else {%>
-            <span id="name">?</span>
-            <span id="matricule">N° étudiant : ?</span>
-        <%}%>
+            <%} else {%>
+                <span id="name">?</span>
+                <span id="matricule">N° étudiant : ?</span>
+                <%}%>
     </a>
     <a href="scolarite">Scolarité</a>
     <a href="sante">Santé</a>
     <a href="contacts">Mes contacts</a>
+    <a href="/logout">Déconnexion</a>
 </aside>

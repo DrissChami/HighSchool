@@ -5,13 +5,10 @@ GENERAL & AUTHENTIFICATION
 
 - GET /  = formulaire de connexion élève
 
-POST /authenticate + identifiant, mot de passe = retourne un token [contient les crédentials : nom, etc..., droits : admin, prof]
+- POST /authenticate + identifiant, mot de passe = retourne un token [contient les crédentials : nom, etc..., droits : admin, prof]
 
-apiRoutes GET / = message de bienvenue
+- ECRIRE UNE PROCEDURE DE CHECKING que l'id demandée correspond à l'id contenue dans le token; que le mec est admin, ou prof, ...
 
-# ECRIRE UNE PROCEDURE DE CHECKING que l'id demandée correspond à l'id contenue dans le token; que le mec est admin, ou prof, ...
-
-apiRoutes GET /users = message de réussite token
 
 
 GET /eleves = liste de tous les élèves
@@ -35,31 +32,30 @@ GET /classe/:id_classe = affiche la liste des élèves d'une classe
 ____________________
 ELEVE
 
-GET /eleve/:id = renvoie vers l'interface d'administration de l'élève
+- GET /eleve/:id = renvoie vers l'interface d'administration de l'élève
 
-GET /eleve/:id/administration = interface administration d'un élève
+- GET /eleve/:id/administration = interface administration d'un élève
 
-GET /eleve/:id/scolarite = interface scolarité d'un élève
+- GET /eleve/:id/scolarite = interface scolarité d'un élève
 
-GET /eleve/:id/sante = interface santé d'un élève
+- GET /eleve/:id/sante = interface santé d'un élève
 
-GET /eleve/:id/contacts = interface des contacts d'un élève
+- GET /eleve/:id/contacts = interface des contacts d'un élève
 
 
-POST /eleve + id = renvoie vers l'interface d'administration de l'élève
 
-POST /eleve/:id/newphoto + photo = upload la photo d'un élève
+- POST /eleve/:id/newphoto + photo = upload la photo d'un élève
 
-POST /eleve/:id/newadresse + adresse = upload l'adresse d'un élève
+- POST /eleve/:id/newadresse + adresse = upload l'adresse d'un élève
 
-POST /eleve/:id/brandnewadresse + adresse = upload la nouvelle adresse d'un élève
+- POST /eleve/:id/brandnewadresse + adresse = upload la nouvelle adresse d'un élève
 
-POST /eleve/:id/brandnewcontact + contact = upload les nouveaux moyens de contact d'un élève
+- POST /eleve/:id/brandnewcontact + contact = upload les nouveaux moyens de contact d'un élève
 
-POST /eleve/:id/newcontact + contact = upload les moyens de contacts d'un élève
+- POST /eleve/:id/newcontact + contact = upload les moyens de contacts d'un élève
 
-POST /eleve/:id/newmedecin + médecin = upload le médecin d'un élève
+- POST /eleve/:id/newmedecin + médecin = upload le médecin d'un élève
 
-POST /eleve/:id/rem_med + remarques médicales = upload la remarque médicale d'un élève
+- POST /eleve/:id/rem_med + remarques médicales = upload la remarque médicale d'un élève
 
 
