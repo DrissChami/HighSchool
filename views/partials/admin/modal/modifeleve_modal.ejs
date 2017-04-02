@@ -1,0 +1,56 @@
+<div class="overlay" id="modifeleve_modal" style="display: none">
+    <div class="modal">
+
+        <header>
+            <h1>Nouvel élève</h1>
+        </header>
+
+        <div class="modal_content">
+            <h2>Modifiez les informations de cet élève</h2>
+
+            <form method="post" action="###" style="font-size: 0.5em;">
+
+                <div class="modal_adresse">
+                    <input class="rue" type="text" name="prenom" placeholder="Prénom de l'élève" required value="<%=// eleve.prenom%>">
+                    <input type="text" name="nom" placeholder="Nom de l'élève" required value="<%=// eleve.nom%>">
+
+                    <p><br></p>
+
+                    <input type="text" name="sexe" placeholder="Sexe" required value="<%=//eleve.sexe%>">
+
+                    <p><br></p>
+
+                    <input class="rue" type="text" placeholder="Date de naissance" name="date_naissance" required value="<%=//eleve.date%>">
+                    <div class="cp_ville">
+                        <input class="cp" type="text" placeholder="Vile de naissance" name="ville_naissance" required value="<%=//eleve.adresse.cp%>">
+                        <input type="text" placeholder="Pays de naissance" name="pays_naissance" required value="<%=//eleve.pays%>">
+                    </div>
+
+                    <p><br></p>
+
+                    <input class="rue" type="text" name="etablissement_precedent" placeholder="Etablissement précédent" value="<%=//eleve.sexe%>">
+                    <input type="text" name="date_inscription" placeholder="Date d'inscription" value="<%=//eleve.sexe%>">
+
+                    <p><br></p>
+
+                    <div class="modal_adresse">
+                        <input class="rue" type="text" name="nom_medecin" placeholder="Nom du médecin" value="<%=//eleve.sexe%>">
+                        <input class="rue" type="text" name="prenom_medecin" placeholder="Prénom du médecin" value="<%=//eleve.sexe%>">
+                        <input type="text" name="telephone_medecin" placeholder="Téléphone du médecin" value="<%=//eleve.sexe%>">
+                    </div>
+
+                    <textarea name="remarques_medicales" placeholder="Remarques médicales" value="<%=//eleve.sexe%>"></textarea>
+
+                    <input type="file" name="convocation">
+                    <input type="file" name="bulletin">
+                </div>
+
+                <div class="form_bottom">
+                    <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('modifeleve_modal');">Annuler</a>
+                    <a class="submit_button" href="#">Ajouter</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
