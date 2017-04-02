@@ -1,0 +1,16 @@
+<section>
+
+    <p id="hey">Liste des élèves</p>
+
+    <ul>
+        <% eleves.forEach(function(eleve){ %>
+            <li style="list-style: none; padding: 10px;">
+                <a style="text-decoration: none; font-size: 1.2em; color: royalblue;" href="javascript:{}" onclick="javascript:toggle_modal('modifeleve_modal_<%= eleve.matricule%>');">
+                    <%= eleve.nom + ' ' + eleve.prenom %>
+                </a>
+            </li>
+            <% include modal/modifeleve_modal %>
+                <% }); %>
+    </ul>
+
+</section>

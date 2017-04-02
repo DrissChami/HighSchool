@@ -1,28 +1,30 @@
-<div class="overlay" id="modifeleve_modal" style="display: none">
+<div class="overlay" id="modifeleve_modal_<%= eleve.matricule%>" style="display: none">
     <div class="modal">
 
         <header>
-            <h1>Nouvel élève</h1>
+            <h1>
+                <%= eleve.prenom + ' ' + eleve.nom%>
+            </h1>
         </header>
 
         <div class="modal_content">
             <h2>Modifiez les informations de cet élève</h2>
 
-            <form method="post" action="###" style="font-size: 0.5em;">
+            <form method="post" action="POST" style="font-size: 0.5em;" id="modifeleve_form_<%= eleve.matricule %>">
 
                 <div class="modal_adresse">
-                    <input class="rue" type="text" name="prenom" placeholder="Prénom de l'élève" required value="<%=// eleve.prenom%>">
-                    <input type="text" name="nom" placeholder="Nom de l'élève" required value="<%=// eleve.nom%>">
+                    <input class="rue" type="text" name="prenom" placeholder="Prénom de l'élève" required value="<%= eleve.prenom%>">
+                    <input type="text" name="nom" placeholder="Nom de l'élève" required value="<%= eleve.nom%>">
 
                     <p><br></p>
 
-                    <input type="text" name="sexe" placeholder="Sexe" required value="<%=//eleve.sexe%>">
+                    <input type="text" name="sexe" placeholder="Sexe" required value="<%= eleve.sexe%>">
 
                     <p><br></p>
 
-                    <input class="rue" type="text" placeholder="Date de naissance" name="date_naissance" required value="<%=//eleve.date%>">
+                    <input class="rue" type="text" placeholder="Date de naissance" name="date_naissance" required value="<%= eleve.date%>">
                     <div class="cp_ville">
-                        <input class="cp" type="text" placeholder="Vile de naissance" name="ville_naissance" required value="<%=//eleve.adresse.cp%>">
+                        <input class="cp" type="text" placeholder="Vile de naissance" name="ville_naissance" required value="<%= //eleve.adresse.cp%>">
                         <input type="text" placeholder="Pays de naissance" name="pays_naissance" required value="<%=//eleve.pays%>">
                     </div>
 
@@ -46,8 +48,8 @@
                 </div>
 
                 <div class="form_bottom">
-                    <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('modifeleve_modal');">Annuler</a>
-                    <a class="submit_button" href="#">Ajouter</a>
+                    <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('modifeleve_modal_<%= eleve.matricule%>');">Annuler</a>
+                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('modifeleve_form_<%= eleve.matricule %>').submit(); return false;">Modifier</a>
                 </div>
             </form>
         </div>

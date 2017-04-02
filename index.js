@@ -416,6 +416,22 @@ getadmin.get('/adm/:id/eleve', function (req, res) {
 });
 
 
+getadmin.get('/adm/:id/eleve/modify', function (req, res) {
+
+    bdd.query('SELECT * FROM eleve ORDER BY nom', function (err, result) {
+        if (err) {
+            return console.error('Erreur avec la table eleve', err);
+        }
+        if (result.rows) {
+            res.render('admin/eleve_modify', {
+                eleves: result.rows,
+                admin: req.params.id
+            });
+        }
+    });
+});
+
+
 getadmin.get('/adm/:id/notes', function (req, res) {
 
     res.render('admin/notes', {
@@ -479,13 +495,8 @@ var eleveUpload = upload.fields([{
     maxCount: 1
 }]);
 
+
 postadmin.post('/adm/:id/eleve/add', eleveUpload, function (req, res) {
-
-
-    console.log(req.body);
-    console.log(req.files);
-
-
 
     // IL FAUT :
     // CHECKER LES INFOS
@@ -536,6 +547,8 @@ postadmin.post('/adm/:id/eleve/add', eleveUpload, function (req, res) {
             var tmp_path = convoc.path;
             var target_path = './public/document/convocation/' + matricule + extension;
             moveTo(tmp_path, target_path, function () {});
+
+            bdd.query("UPDATE eleve SET convocation = true WHERE matricule = $1", [matricule]);
         }
 
         if (req.files['bulletin'] && req.files['bulletin'][0]) {
@@ -546,6 +559,8 @@ postadmin.post('/adm/:id/eleve/add', eleveUpload, function (req, res) {
             var tmp_path = bulletin.path;
             var target_path = './public/document/bulletin/' + matricule + extension;
             moveTo(tmp_path, target_path, function () {});
+
+            bdd.query("UPDATE eleve SET bulletin = true WHERE matricule = $1", [matricule]);
         }
 
 
@@ -560,19 +575,6 @@ postadmin.post('/adm/:id/eleve/add', eleveUpload, function (req, res) {
 
 // ###############################################
 
-app.get('/eleves', function (req, res) {
-
-    bdd.query('SELECT * FROM eleve', function (err, result) {
-        if (err) {
-            return console.error('Erreur avec la table eleve', err);
-        }
-        if (result.rows) {
-            res.render('eleves', {
-                eleves: result.rows
-            });
-        }
-    });
-});
 
 
 
