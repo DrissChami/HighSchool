@@ -1,47 +1,57 @@
 <% if(eleve == null) { %>
-<section>
-    <p id="hey">Cet identifiant ne correspond à aucun élève.</p>
-</section>
+    <section>
+        <p id="hey">Cet identifiant ne correspond à aucun élève.</p>
+    </section>
 
-<%} else {%>
+    <%} else {%>
 
-<section>
-    
-    <div class="row">
-        
-        <div class="card">
-            <h1>Convocation</h1>
+        <section>
 
-            <% if(eleve.convocation) {%>
-                <a class="button" href="/document/convocation/<%= eleve.matricule %>.txt">Afficher la convocation</a>
-            <%}else{%>
-                <p>Pas de convocation.</p>
-            <%}%>
-        </div>
-        
-        <div class="card">
-            <h1>Bulletin</h1>
+            <div class="row">
 
-            <% if(eleve.bulletin) {%>
-                <a class="button" href="/document/bulletin/<%= eleve.matricule%>.pdf">Télécharger le bulletin</a>
-            <%}else{%>
-                <p>Pas de bulletin.</p>
-            <%}%>
-        </div>
-        
-    </div>
-    
-    <div class="row">
+                <div class="card">
+                    <h1>Convocation</h1>
 
-        <div class="card">
-            <h1>Relevé de notes</h1>
-            
-            <p>Ici, relevé de notes</p>
-            
-        </div>
-        
-    </div>
+                    <% if(eleve.convocation) {%>
+                        <a class="button" href="/document/convocation/<%= eleve.matricule %>.txt">Afficher la convocation</a>
+                        <%}else{%>
+                            <p>Pas de convocation.</p>
+                            <%}%>
+                </div>
 
-</section>
+                <div class="card">
+                    <h1>Bulletin</h1>
 
-<%}%>
+                    <% if(eleve.bulletin) {%>
+                        <a class="button" href="/document/bulletin/<%= eleve.matricule%>.pdf">Télécharger le bulletin</a>
+                        <%}else{%>
+                            <p>Pas de bulletin.</p>
+                            <%}%>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="card">
+                    <h1>Relevé de notes</h1>
+
+                    <% if(notes[0]) { %>
+
+                        <% notes.forEach(function(note){ %>
+                            <p>
+                                <%= note.matiere + ' : ' + note.moyenne %>
+                            </p>
+                            <% }); %>
+
+                                <%} else { %>
+                                    <p>Pas de notes disponibles.</p>
+                                    <% } %>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <%}%>

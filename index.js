@@ -195,7 +195,7 @@ geteleve.get('/eleve/:id/administration', function (req, res) {
                 }
 
                 bdd.query('SELECT niveau, nom FROM classe WHERE id_classe IN (SELECT id_classe FROM est_dans_classe WHERE matricule = $1) AND annee = (SELECT MAX(annee) FROM (SELECT annee FROM classe WHERE id_classe IN (SELECT id_classe FROM est_dans_classe WHERE matricule = $1)) AS max)',   [eleve.matricule], function (err, result) {
-                    if (err) return console.error("Erreir dans l'obtention de la classe de l'élève " + eleve.matricule);
+                    if (err) return console.error("Erreur dans l'obtention de la classe de l'élève " + eleve.matricule);
 
                     eleve.classe = null;
                     if (result.rows[0])
@@ -226,8 +226,26 @@ geteleve.get('/eleve/:id/scolarite', function (req, res) {
             eleve = result.rows[0];
             eleve.matricule = matricule;
 
-            res.render('eleve/scolarite', {
-                eleve: eleve
+            bdd.query("SELECT matiere, AVG(note1) as note1, AVG(note2) as note2, AVG(note3) as note3 FROM notes WHERE matricule = $1 GROUP BY matiere", [req.params.id], function (err, result) {
+                if (err) return console.error("Erreur dans l'accès aux notes de l'élève");
+
+                var notes = [];
+
+                for (var i = 0; i < result.rows.length; i++) {
+                    var moy = result.rows[i].note1 + result.rows[i].note2 + result.rows[i].note3;
+                    moy /= 3;
+                    notes.push({
+                        matiere: result.rows[i].matiere,
+                        moyenne: moy
+                    });
+                }
+
+                console.log(notes);
+
+                res.render('eleve/scolarite', {
+                    eleve: eleve,
+                    notes: notes
+                });
             });
         }
     });
@@ -434,34 +452,75 @@ getadmin.get('/adm/:id/eleve/modify', function (req, res) {
 
 getadmin.get('/adm/:id/notes', function (req, res) {
 
-    res.render('admin/notes', {
-        admin: req.params.id
+    bdd.query('SELECT nom, prenom, matricule FROM eleve', function (err, result) {
+        if (err) return console.error("Erreur dans l'accès à la liste des élèves");
+
+        res.render('admin/notes', {
+            admin: req.params.id,
+            eleves: result.rows
+        });
+    });
+});
+
+getadmin.get('/adm/:id/notes/:matricule', function (req, res) {
+
+    res.render('admin/notes_action', {
+        admin: req.params.id,
+        matricule: req.params.matricule
     });
 
 });
 
+getadmin.get('/adm/:id/notes/:matricule/add', function (req, res) {
+
+    //Calcul de l'id CLASSE
+
+    bdd.query('SELECT id_classe FROM classe WHERE id_classe IN (SELECT id_classe FROM est_dans_classe WHERE matricule = $1) AND annee = (SELECT MAX(annee) FROM (SELECT annee FROM classe WHERE id_classe IN (SELECT id_classe FROM est_dans_classe WHERE matricule = $1)) AS max)',   [req.params.matricule], function (err, result) {
+        if (err) return console.error("Erreur dans l'obtention de la classe de l'élève " + eleve.matricule);
+
+        if (result.rows[0] && result.rows[0].id_classe) {
+            res.render('admin/ajout_notes_form', {
+                admin: req.params.id,
+                id_classe: result.rows[0].id_classe,
+                matricule: req.params.matricule
+            });
+        } else {
+            res.render('admin/ajout_notes_form', {
+                admin: req.params.id,
+                id_classe: null,
+                matricule: req.params.matricule
+            })
+        }
+    });
+
+});
+
+
+getadmin.get('/adm/:id/notes/:matricule/modify', function (req, res) {
+
+    bdd.query("SELECT classe.id_classe, annee, matiere, note1, note2, note3 FROM classe, notes WHERE notes.matricule = $1 AND notes.id_classe = classe.id_classe ORDER BY annee, matiere", [req.params.matricule], function (err, result) {
+        if (err) return console.error("Erreur dans l'accès aux notes");
+
+        if (result.rows[0]) {
+            res.render('admin/notes_modif', {
+                admin: req.params.id,
+                matricule: req.params.matricule,
+                notes: result.rows
+            });
+        } else {
+            res.render('admin/notes_modif', {
+                admin: req.params.id,
+                matricule: req.params.matricule,
+                notes: null
+            });
+        }
+    });
+
+});
 
 getadmin.get('/adm/:id/classe', function (req, res) {
 
     res.render('admin/classe', {
-        admin: req.params.id
-    });
-
-});
-
-
-getadmin.get('/adm/:id/prof', function (req, res) {
-
-    res.render('admin/prof', {
-        admin: req.params.id
-    });
-
-});
-
-
-getadmin.get('/adm/:id/matiere', function (req, res) {
-
-    res.render('admin/matiere', {
         admin: req.params.id
     });
 
@@ -570,43 +629,44 @@ postadmin.post('/adm/:id/eleve/add', eleveUpload, function (req, res) {
 
 });
 
+postadmin.post('/adm/:id/eleve/modify/:matricule', function (req, res) {
 
+    bdd.query("UPDATE eleve SET prenom = $1, nom = $2, ville_naissance = $3, pays_naissance = $4, etablissement_precedent = $5, nom_medecin = $6, prenom_medecin = $7, telephone_medecin = $8, remarques_medicales = $9 WHERE matricule = $10", [
+        req.body.prenom,
+        req.body.nom,
+        req.body.ville_naissance,
+        req.body.pays_naissance,
+        req.body.etablissement_precedent,
+        req.body.nom_medecin,
+        req.body.prenom_medecin,
+        req.body.telephone_medecin,
+        req.body.remarques_medicales,
+        req.params.matricule
+    ]);
 
+    // MODIF CONTACTS
+    // MODIF ADRESSE
+    // MODIF FICHIERS
 
-// ###############################################
-
-
-
-
-
-app.get('/eleve/add', function (req, res) {
-    res.render('ajoutEleve');
-});
-
-
-
-
-app.get('/classe', function (req, res) {
-
-    bdd.query('SELECT * FROM classe', function (err, result) {
-        if (err) return console.error("Erreur dans l'accès à la liste des classes");
-
-        res.render('classes', {
-            classes: result.rows
-        });
-    });
+    res.redirect('/adm/' + req.params.id + '/eleve/modify');
 
 });
 
-app.get('/classe/:id_classe', function (req, res) {
 
-    bdd.query('SELECT * FROM est_dans_classe WHERE id_classe = $1', [req.params.id_classe], function (err, result) {
-        if (err) return console.error("Erreur dans l'accès à la liste des élèves d'une classe");
+postadmin.post('/adm/:id/notes/:matricule/add', function (req, res) {
 
-        res.render('classeCompo', {
-            classe: result.rows
-        });
-    });
+    bdd.query("INSERT INTO notes (id_classe, matricule, matiere, note1, note2, note3) VALUES ($1, $2, $3, $4, $5, $6)", [req.body.id_classe, req.body.matricule, req.body.matiere, req.body.note1, req.body.note2, req.body.note3]);
+
+    res.redirect('/adm/' + req.params.id + '/notes/' + req.params.matricule);
+
+});
+
+
+postadmin.post('/adm/:id/notes/:matricule/modify', function (req, res) {
+
+    bdd.query("UPDATE notes SET matiere = $1, note1 = $2, note2 = $3, note3 = $4 WHERE id_classe = $5 AND matricule = $6", [req.body.matiere, req.body.note1, req.body.note2, req.body.note3, req.body.id_classe, req.body.matricule]);
+
+    res.redirect('/adm/' + req.params.id + '/notes/' + req.params.matricule + '/modify');
 
 });
 

@@ -1,0 +1,24 @@
+<section>
+    <p id="hey">Modification de notes</p>
+
+    <% if(notes != null) { %>
+
+        <% notes.forEach(function(note){ %>
+            <form method="post" action="modify">
+                <%= note.annee %>
+                    <input type="text" placeholder="Matière" name="matiere" value="<%= note.matiere %>">
+                    <input type="text" placeholder="Note 1" name="note1" value="<%= note.note1 %>">
+                    <input type="text" placeholder="Note 2" name="note2" value="<%= note.note2 %>">
+                    <input type="text" placeholder="Note 3" name="note3" value="<%= note.note3 %>">
+                    <input type="hidden" value="<%= note.id_classe %>" name="id_classe">
+                    <input type="hidden" value="<%= matricule %>" name="matricule">
+
+                    <input type="submit" value="Modifier">
+            </form>
+
+            <% }); %>
+
+                <%} else {%>
+                    <p>Pas de notes encore entrée.</p>
+                    <%}%>
+</section>
