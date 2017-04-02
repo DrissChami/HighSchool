@@ -8,7 +8,7 @@
         <div class="modal_content">
             <h2>Précisez les informations de cet élève</h2>
 
-            <form method="post" action="###" style="font-size: 0.5em;">
+            <form id="ajouteleve" method="post" action="eleve/add" style="font-size: 0.3em;" enctype="multipart/form-data">
 
                 <div class="modal_adresse">
                     <input class="rue" type="text" name="prenom" placeholder="Prénom de l'élève" required>
@@ -39,6 +39,22 @@
                         <input type="text" name="telephone_medecin" placeholder="Téléphone du médecin">
                     </div>
 
+                    <p><br></p>
+
+                    <div class="modal_adresse">
+                        <input class="rue" type="text" name="adresse" placeholder="Adresse">
+                        <input class="rue" type="text" name="cp" placeholder="CP">
+                        <input type="text" name="ville" placeholder="Ville">
+                    </div>
+
+                    <p><br></p>
+
+                    <div class="modal_adresse">
+                        <input class="rue" type="text" name="telephone_domicile" placeholder="Télépghone domicile">
+                        <input class="rue" type="text" name="telephone_mobile" placeholder="Téléphone mobile">
+                        <input type="text" name="email" placeholder="Email">
+                    </div>
+
                     <textarea name="remarques_medicales" placeholder="Remarques médicales"></textarea>
 
                     <input type="file" name="convocation">
@@ -47,7 +63,7 @@
 
                 <div class="form_bottom">
                     <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('ajouteleve_modal');">Annuler</a>
-                    <a class="submit_button" href="#">Ajouter</a>
+                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('ajouteleve').submit(); return false;">Ajouter</a>
                 </div>
             </form>
         </div>

@@ -471,55 +471,91 @@ postadmin.param('id', function (req, res, next, id) {
 });
 
 
-getadmin.get('/adm/:id', function (req, res) {
+var eleveUpload = upload.fields([{
+    name: 'convocation',
+    maxCount: 1
+}, {
+    name: 'bulletin',
+    maxCount: 1
+}]);
 
-    res.redirect('/adm/' + req.params.id + '/eleve');
+postadmin.post('/adm/:id/eleve/add', eleveUpload, function (req, res) {
 
-});
 
-getadmin.get('/adm/:id/eleve', function (req, res) {
+    console.log(req.body);
+    console.log(req.files);
 
-    res.render('admin/eleve', {
-        admin: req.params.id
+
+
+    // IL FAUT :
+    // CHECKER LES INFOS
+
+    // ... ###############
+
+    // CREER LA LIGNE DE L'ELEVE
+
+    bdd.query("INSERT INTO eleve (nom, prenom, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, sexe, date_inscription, nom_medecin, prenom_medecin, telephone_medecin, remarques_medicales) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [req.body.nom,
+         req.body.prenom,
+         req.body.date_naissance,
+         req.body.ville_naissance,
+         req.body.pays_naissance,
+         req.body.etablissement_precedent,
+         true,
+         req.body.date_inscription,
+         req.body.nom_medecin,
+         req.body.prenom_medecin,
+         req.body.telephone_medecin,
+         req.body.remarques_medicales
+        ]);
+
+    // ON RECUPERE LE MATRICULE
+
+
+    bdd.query("SELECT MAX(matricule) FROM eleve", function (err, result) {
+        if (err) return console.log("Erreur dans l'obtention du matricule");
+
+        var matricule = result.rows[0].max;
+
+        // CREER UNE LIGNE ADRESSE
+
+        bdd.query("INSERT INTO contact (adresse, cp, ville, telephone_domicile, telephone_mobile, email, nom_contact, prenom_contact, matricule_eleve ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [req.body.adresse, req.body.cp, req.body.ville, req.body.telephone_domicile, req.body.telephone_mobile, req.body.email, null, null, matricule]);
+
+        // CREER UNE LIGNE PASSWORD
+
+        bdd.query("INSERT INTO password (identifiant, mot_de_passe, administrateur, professeur) VALUES ($1, $2, $3, $4)", [matricule, matricule, false, false]);
+
+
+
+        // UPLOAD DOCUMENTS
+
+        if (req.files['convocation'] && req.files['convocation'][0]) {
+
+            var convoc = req.files['convocation'][0];
+            var extension = '.txt';
+
+            var tmp_path = convoc.path;
+            var target_path = './public/document/convocation/' + matricule + extension;
+            moveTo(tmp_path, target_path, function () {});
+        }
+
+        if (req.files['bulletin'] && req.files['bulletin'][0]) {
+
+            var bulletin = req.files['bulletin'][0];
+            var extension = '.pdf';
+
+            var tmp_path = bulletin.path;
+            var target_path = './public/document/bulletin/' + matricule + extension;
+            moveTo(tmp_path, target_path, function () {});
+        }
+
+
     });
 
-});
-
-
-getadmin.get('/adm/:id/notes', function (req, res) {
-
-    res.render('admin/notes', {
-        admin: req.params.id
-    });
+    res.redirect('/adm/' + req.params.id);
 
 });
 
 
-getadmin.get('/adm/:id/classe', function (req, res) {
-
-    res.render('admin/classe', {
-        admin: req.params.id
-    });
-
-});
-
-
-getadmin.get('/adm/:id/prof', function (req, res) {
-
-    res.render('admin/prof', {
-        admin: req.params.id
-    });
-
-});
-
-
-getadmin.get('/adm/:id/matiere', function (req, res) {
-
-    res.render('admin/matiere', {
-        admin: req.params.id
-    });
-
-});
 
 
 // ###############################################
@@ -539,74 +575,6 @@ app.get('/eleves', function (req, res) {
 });
 
 
-var eleveUpload = upload.fields([{
-    name: 'photo',
-    maxCount: 1
-}, {
-    name: 'convocation',
-    maxCount: 1
-}, {
-    name: 'bulletin',
-    maxCount: 1
-}]);
-
-app.post('/eleve/add', eleveUpload, function (req, res) {
-
-    bdd.query("INSERT INTO eleve (nom, prenom, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, sexe, date_inscription, nom_medecin, prenom_medecin, telephone_medecin, remarques_medicales) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [req.body.nom,
-         req.body.prenom,
-         req.body.date_naissance,
-         req.body.ville_naissance,
-         req.body.pays_naissance,
-         req.body.etablissement_precedent,
-         true,
-         req.body.date_inscription,
-         req.body.nom_medecin,
-         req.body.prenom_medecin,
-         req.body.telephone_medecin,
-         req.body.remarques_medicales
-        ]);
-
-    bdd.query("SELECT MAX(matricule) FROM eleve", function (err, result) {
-        if (err) return console.error("Erreur dans l'obtention du dernier ID d'élève");
-
-        var ID = result.rows[0].max;
-
-        // ### Upload photo, convocation, bulletin
-
-        if (req.files['photo'] && req.files['photo'][0]) {
-
-            var tmp_path = req.files['photo'][0].path;
-            var target_path = './public/photos/' + ID + '.jpg'; // Accepte jpg, jpeg, png
-
-            moveTo(tmp_path, target_path, function () {});
-
-        }
-
-        if (req.files['convocation'] && req.files['convocation'][0]) {
-
-            var convoc = req.files['convocation'][0];
-            var extension = '.txt';
-
-            var tmp_path = convoc.path;
-            var target_path = './public/document/convocation/' + ID + extension;
-            moveTo(tmp_path, target_path, function () {});
-        }
-
-        if (req.files['bulletin'] && req.files['bulletin'][0]) {
-
-            var bulletin = req.files['bulletin'][0];
-            var extension = '.pdf';
-
-            var tmp_path = bulletin.path;
-            var target_path = './public/document/bulletin/' + ID + extension;
-            moveTo(tmp_path, target_path, function () {});
-        }
-
-        res.redirect('/eleve/' + ID);
-
-    });
-
-});
 
 
 app.get('/eleve/add', function (req, res) {
