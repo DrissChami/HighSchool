@@ -70,6 +70,10 @@ root.get('/', function (req, res) {
     });
 });
 
+root.get('/adm', function (req, res) {
+    res.render('admin/admin_login_form');
+});
+
 
 root.post('/login', function (req, res) {
 
@@ -93,7 +97,7 @@ root.post('/login', function (req, res) {
                 // REDIRECTION VERS LE BON ESPACE
 
                 if (user.administrateur) {
-                    res.redirect('/admin/' + user.identifiant);
+                    res.redirect('/adm/' + user.identifiant);
                 } else if (user.professeur) {
                     res.redirect('/prof/' + user.identifiant);
                 } else {
@@ -106,6 +110,7 @@ root.post('/login', function (req, res) {
             }
         });
     } else  {
+
         res.render('index', {
             error: true
         });
@@ -378,6 +383,144 @@ posteleve.post('/eleve/:id/rem_med', function (req, res) {
 });
 
 
+// ####### GETADMIN #######
+
+var getadmin = express.Router();
+
+getadmin.param('id', function (req, res, next, id) {
+
+    if (id == req.token.identifiant) {
+        if (req.token.administrateur) // Need to be admin to proceed
+            next();
+        else
+            res.redirect('/');
+    } else {
+        res.redirect('/');
+    }
+
+});
+
+
+getadmin.get('/adm/:id', function (req, res) {
+
+    res.redirect('/adm/' + req.params.id + '/eleve');
+
+});
+
+getadmin.get('/adm/:id/eleve', function (req, res) {
+
+    res.render('admin/eleve', {
+        admin: req.params.id
+    });
+
+});
+
+
+getadmin.get('/adm/:id/notes', function (req, res) {
+
+    res.render('admin/notes', {
+        admin: req.params.id
+    });
+
+});
+
+
+getadmin.get('/adm/:id/classe', function (req, res) {
+
+    res.render('admin/classe', {
+        admin: req.params.id
+    });
+
+});
+
+
+getadmin.get('/adm/:id/prof', function (req, res) {
+
+    res.render('admin/prof', {
+        admin: req.params.id
+    });
+
+});
+
+
+getadmin.get('/adm/:id/matiere', function (req, res) {
+
+    res.render('admin/matiere', {
+        admin: req.params.id
+    });
+
+});
+
+
+
+// ####### POSTADMIN #######
+
+var postadmin = express.Router();
+
+postadmin.param('id', function (req, res, next, id) {
+
+    if (id == req.token.identifiant) {
+        if (req.token.administrateur) // Need to be admin to proceed
+            next();
+        else
+            res.redirect('/');
+    } else {
+        res.redirect('/');
+    }
+
+});
+
+
+getadmin.get('/adm/:id', function (req, res) {
+
+    res.redirect('/adm/' + req.params.id + '/eleve');
+
+});
+
+getadmin.get('/adm/:id/eleve', function (req, res) {
+
+    res.render('admin/eleve', {
+        admin: req.params.id
+    });
+
+});
+
+
+getadmin.get('/adm/:id/notes', function (req, res) {
+
+    res.render('admin/notes', {
+        admin: req.params.id
+    });
+
+});
+
+
+getadmin.get('/adm/:id/classe', function (req, res) {
+
+    res.render('admin/classe', {
+        admin: req.params.id
+    });
+
+});
+
+
+getadmin.get('/adm/:id/prof', function (req, res) {
+
+    res.render('admin/prof', {
+        admin: req.params.id
+    });
+
+});
+
+
+getadmin.get('/adm/:id/matiere', function (req, res) {
+
+    res.render('admin/matiere', {
+        admin: req.params.id
+    });
+
+});
+
 
 // ###############################################
 
@@ -465,9 +608,6 @@ app.post('/eleve/add', eleveUpload, function (req, res) {
 
 });
 
-app.get('/adm', function (req, res) {
-    res.render('admin');
-});
 
 app.get('/eleve/add', function (req, res) {
     res.render('ajoutEleve');
@@ -507,3 +647,5 @@ app.use('/', root);
 app.use('/', checking);
 app.use('/', geteleve);
 app.use('/', posteleve);
+app.use('/', getadmin);
+app.use('/', postadmin);

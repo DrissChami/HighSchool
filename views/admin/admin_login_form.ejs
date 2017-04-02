@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Session administateur du collège Charles Dabert
+    </title>
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+        
+        body {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        
+        #ImageJolie {
+            display: flex;
+            background-image: url("../img/ImageJolie.jpg");
+            background-position: center;
+            background-size: cover;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            z-index: -1;
+            filter: blur(0px);
+        }
+        
+        #central {
+            display: flex;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+        }
+        
+        #titre {
+            font-family: 'Verdana', sans-serif;
+            color: #b30000;
+            text-align: center;
+            width: 100%;
+            font-size: 35px;
+        }
+        
+        form {
+            margin: auto;
+            padding: 50px 0px;
+            border: solid 1px rgba(255, 255, 255, 0.5);
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        form input,
+        button {
+            width: 60%;
+            padding: 10px;
+            margin: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 1em;
+            border: solid 1px rgba(255, 255, 255, 0.8);
+        }
+        
+        form #bouton:hover {
+            background-color: #ff3333;
+        }
+        
+        form #bouton:active {
+            background-color: #2b9183;
+        }
+        
+        form p a {
+            margin: 20px;
+            font-size: 0.7em;
+            color: white;
+            text-decoration: none;
+        }
+        
+        form p a:hover {
+            text-decoration: underline;
+        }
+        
+        #bouton {
+            background-color: darkred;
+        }
+
+    </style>
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+    <div id="ImageJolie"></div>
+
+    <div id="central">
+        <form method="post" action="/login">
+            <p id="titre">Session administrateur</p>
+
+            <input type="text" name="identifiant" placeholder="Identifiant administrateur"><br>
+            <input type="password" name="password" placeholder="Mot de passe"><br>
+            <button id="bouton" type="submit">Accéder l'espace administrateur</button>
+        </form>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,18 +1,14 @@
 <aside>
-    <a href="administration">
-        <% //if(eleve) {%>
-            <span id="name">
-                <%=// eleve.prenom+' '+eleve.nom %>
-            </span>
-            <span id="matricule">N° administateur : <%= //eleve.matricule %></span>
-            <%//} else {%>
-                <span id="name">?</span>
-                <span id="matricule">N° administrateur : ?</span>
-                <%//}%>
+    <a href="eleve">
+
+        <span id="name">
+        <%= admin %>
+    </span>
     </a>
-    <a href="scolarite">Gestion des élèves</a>
-    <a href="sante">Gestion des notes</a>
-    <a href="contacts">Gestion des classes</a>
-    <a href="contacts">Gestion des professeurs</a>
-    <a href="contacts">Gestion des matières</a>
+    <a href="eleve">Gestion des élèves</a>
+    <a href="notes">Gestion des notes</a>
+    <a href="classe">Gestion des classes</a>
+    <a href="prof">Gestion des professeurs</a>
+    <a href="matiere">Gestion des matières</a>
+    <a href="/logout">Déconnexion</a>
 </aside>
