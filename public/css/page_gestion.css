@@ -21,10 +21,6 @@ body {
     color: royalblue;
 }
 
-.nom p {
-    text-align: center;
-}
-
 #central {
     display: flex;
     width: 100%;
