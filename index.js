@@ -351,7 +351,6 @@ posteleve.post('/eleve/:id/newphoto', upload.single('photo'), function (req, res
 });
 
 posteleve.post('/eleve/:id/newadresse', function (req, res) {
-    // CHECK SAFETY
 
     bdd.query("UPDATE contact SET adresse = $1, cp = $2, ville=$3 WHERE matricule_eleve = $4 AND nom_contact IS NULL;", [req.body.adresse, req.body.cp, req.body.ville, req.params.id]);
 
@@ -398,6 +397,17 @@ posteleve.post('/eleve/:id/rem_med', function (req, res) {
     bdd.query("UPDATE eleve SET remarques_medicales = $1 WHERE matricule = $2", [escaped_text, req.params.id]);
 
     res.redirect('/eleve/' + req.params.id + '/sante');
+});
+
+posteleve.post('/eleve/:id/newpassword', function (req, res) {
+
+    if (req.body.new_password == req.body.new_password_2) {
+
+        bdd.query("UPDATE password SET mot_de_passe = $1 WHERE identifiant = $2", [req.body.new_password, req.params.id]);
+
+    }
+
+    res.redirect('/eleve/' + req.params.id + '/administration');
 });
 
 
