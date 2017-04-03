@@ -1,19 +1,23 @@
 <html>
-    <head>
-        <% include ../partials/head %>
+
+<head>
+    <% include ../partials/head %>
         <link rel="stylesheet" href="/css/profilEleve.css">
         <% if(eleve) { %>
-            <title><%= eleve.prenom + ' ' + eleve.nom %></title>
-        <% } %>
-    </head>
+            <title>
+                <%= eleve.prenom + ' ' + eleve.nom %>
+            </title>
+            <% } %>
+</head>
 
-    <body>
+<body>
 
-        
+
     <div id="padder"></div>
 
     <% include ../partials/eleve/contacts %>
-    
-    <% include ../partials/eleve/menu %>
-    </body>
+
+        <% include ../partials/eleve/menu %>
+</body>
+
 </html>

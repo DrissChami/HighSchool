@@ -1,29 +1,33 @@
 <div class="overlay" id="newcontacts_modal_<%= contact.matricule%>" style="display: none">
     <div class="modal">
-        
+
         <header>
-            <h1><%= contact.prenom_contact + ' ' + contact.nom_contact %></h1>
+            <h1>
+                <%= contact.prenom_contact + ' ' + contact.nom_contact %>
+            </h1>
         </header>
-        
+
         <div class="modal_content">
             <h2>Modifier vos informations de contact</h2>
 
-            <form id="contact_form_<%= contact.matricule %>" action="/eleve/<%= eleve.matricule %>/newcontact" method="post">
-  
+            <form id="contact_form_<%= contact.matricule %>" action="/eleve/<%= eleve.matricule %>/up_respo" method="post">
+
                 <div class="modal_adresse">
                     <input class="rue" type="text" name="prenom_contact" value="<%= contact.prenom_contact %>" placeholder="Prénom du contact">
+                    <input type="hidden" value="<%= contact.prenom_contact %>" name="old_prenom">
                     <input type="text" name="nom_contact" value="<%= contact.nom_contact %>" placeholder="Nom du contact">
-                    
+                    <input type="hidden" value="<%= contact.nom_contact %>" name="old_nom">
+
                     <p><br></p>
-                    
-                    <input class="rue" type="text" value="<%= contact.adresse%>" placeholder="N° et rue">
+
+                    <input class="rue" type="text" value="<%= contact.adresse%>" placeholder="N° et rue" name="adresse">
                     <div class="cp_ville">
-                        <input class="cp" type="text" value="<%= contact.cp%>" placeholder="Code postal">
-                        <input type="text" value="<%= contact.ville%>" placeholder="Ville">
+                        <input class="cp" type="text" value="<%= contact.cp%>" placeholder="Code postal" name="cp">
+                        <input type="text" value="<%= contact.ville%>" placeholder="Ville" name="ville">
                     </div>
-                    
+
                     <p><br></p>
-                    
+
                     <div class="modal_adresse">
                         <input class="rue" type="text" name="telephone_domicile" value="<%= contact.telephone_domicile %>" placeholder="Téléphone du domicile">
                         <input class="rue" type="text" name="telephone_mobile" value="<%= contact.telephone_mobile %>" placeholder="Téléphone mobile">
@@ -33,11 +37,11 @@
 
                 <div class="form_bottom">
                     <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('newcontacts_modal_<%= contact.matricule%>');">Annuler</a>
-                    
+
                     <a class="submit_button" href="javascript:{}" onclick="document.getElementById('contact_form_<%= contact.matricule %>').submit(); return false;">Modifier</a>
                 </div>
             </form>
         </div>
-        
+
     </div>
 </div>

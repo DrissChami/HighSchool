@@ -365,16 +365,9 @@ posteleve.post('/eleve/:id/brandnewadresse', function (req, res) {
     res.redirect('/eleve/' + req.params.id + '/administration');
 });
 
-posteleve.post('/eleve/:id/brandnewcontact', function (req, res) {
-    // CHECK SAFETY
-
-    bdd.query("INSERT INTO contact (telephone_domicile, telephone_mobile, email, matricule_eleve) VALUES ($1, $2, $3, $4)", [req.body.telephone_domicile, req.body.telephone_mobile, req.body.email, req.params.id]);
-
-    res.redirect('/eleve/' + req.params.id + '/administration');
-});
-
 posteleve.post('/eleve/:id/newcontact', function (req, res) {
-    // CHECK SAFETY
+
+    console.log(req.body);
 
     bdd.query("UPDATE contact SET telephone_domicile = $1, telephone_mobile = $2, email = $3 WHERE matricule_eleve = $4 AND nom_contact IS NULL", [req.body.telephone_domicile, req.body.telephone_mobile, req.body.email, req.params.id]);
 
@@ -410,6 +403,22 @@ posteleve.post('/eleve/:id/newpassword', function (req, res) {
     res.redirect('/eleve/' + req.params.id + '/administration');
 });
 
+
+posteleve.post('/eleve/:id/responsable', function (req, res) {
+
+    console.log(req.body);
+
+    bdd.query("INSERT INTO contact (adresse, cp, ville, telephone_domicile, telephone_mobile, email, nom_contact, prenom_contact, matricule_eleve) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [req.body.adresse, req.body.cp, req.body.ville, req.body.telephone_domicile, req.body.telephone_mobile, req.body.email, req.body.nom_contact, req.body.prenom_contact, req.params.id]);
+
+    res.redirect('/eleve/' + req.params.id + '/contacts');
+});
+
+posteleve.post('/eleve/:id/up_respo', function (req, res) {
+
+    bdd.query("UPDATE contact SET adresse = $1, cp = $2, ville = $3, telephone_domicile = $4, telephone_mobile = $5, email = $6, nom_contact = $7, prenom_contact = $8 WHERE matricule_eleve = $9 AND nom_contact = $10 AND prenom_contact = $11", [req.body.adresse, req.body.cp, req.body.ville, req.body.telephone_domicile, req.body.telephone_mobile, req.body.email, req.body.nom_contact, req.body.prenom_contact, req.params.id, req.body.old_nom, req.body.old_prenom]);
+
+    res.redirect('/eleve/' + req.params.id + '/contacts');
+});
 
 // ####### GETADMIN #######
 

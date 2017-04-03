@@ -1,63 +1,61 @@
 <% if(eleve.adresse) { %>
 
-<div class="overlay" id="newcontact_modal" style="display: none">
-    <div class="modal">
-        
-        <header>
-            <h1>Contact</h1>
-        </header>
-        
-        <div class="modal_content">
-            <h2>Modifier vos informations de contact</h2>
+    <div class="overlay" id="newcontact_modal" style="display: none">
+        <div class="modal">
 
-            <form id="contact_form"
-                  action="/eleve/<%= eleve.matricule %>/newcontact" method="post">
-                <div class="modal_adresse">
-                    <input class="rue" type="text" name="telephone_domicile" value="<%= eleve.adresse.telephone_domicile %>" placeholder="Téléphone du domicile">
-                    <input class="rue" type="text" name="telephone_mobile" value="<%= eleve.adresse.telephone_mobile %>" placeholder="Téléphone mobile">
-                    <input type="text" name="email" value="<%= eleve.adresse.email %>" placeholder="Adresse mail">
-                </div>
+            <header>
+                <h1>Contact</h1>
+            </header>
 
-                <div class="form_bottom">
-                    <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('newcontact_modal');">Annuler</a>
-                    
-                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('contact_form').submit(); return false;">Modifier</a>
-                </div>
-            </form>
+            <div class="modal_content">
+                <h2>Modifier vos informations de contact</h2>
+
+                <form id="contact_form" action="/eleve/<%= eleve.matricule %>/newcontact" method="post">
+                    <div class="modal_adresse">
+                        <input class="rue" type="text" name="telephone_domicile" value="<%= eleve.adresse.telephone_domicile %>" placeholder="Téléphone du domicile">
+                        <input class="rue" type="text" name="telephone_mobile" value="<%= eleve.adresse.telephone_mobile %>" placeholder="Téléphone mobile">
+                        <input type="text" name="email" value="<%= eleve.adresse.email %>" placeholder="Adresse mail">
+                    </div>
+
+                    <div class="form_bottom">
+                        <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('newcontact_modal');">Annuler</a>
+
+                        <a class="submit_button" href="javascript:{}" onclick="document.getElementById('contact_form').submit(); return false;">Modifier</a>
+                    </div>
+                </form>
+            </div>
+
         </div>
-        
     </div>
-</div>
 
-<% } else { %>
+    <% } else { %>
 
-<div class="overlay" id="newcontact_modal" style="display: none">
-    <div class="modal">
-        
-        <header>
-            <h1>Contact</h1>
-        </header>
-        
-        <div class="modal_content">
-            <h2>Ajouter vos informations de contact</h2>
+        <div class="overlay" id="newcontact_modal" style="display: none">
+            <div class="modal">
 
-            <form id="contact_form"
-                  action="/eleve/<%= eleve.matricule %>/brandnewcontact" method="post">
-                <div class="modal_adresse">
-                    <input class="rue" type="text" name="telephone_domicile" placeholder="Téléphone du domicile">
-                    <input class="rue" type="text" name="telephone_mobile" placeholder="Téléphone mobile">
-                    <input type="text" name="email" placeholder="Adresse mail">
+                <header>
+                    <h1>Contact</h1>
+                </header>
+
+                <div class="modal_content">
+                    <h2>Ajouter vos informations de contact</h2>
+
+                    <form id="contact_form" action="/eleve/<%= eleve.matricule %>/newcontact" method="post">
+                        <div class="modal_adresse">
+                            <input class="rue" type="text" name="telephone_domicile" placeholder="Téléphone du domicile">
+                            <input class="rue" type="text" name="telephone_mobile" placeholder="Téléphone mobile">
+                            <input type="text" name="email" placeholder="Adresse mail">
+                        </div>
+
+                        <div class="form_bottom">
+                            <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('newcontact_modal');">Annuler</a>
+
+                            <a class="submit_button" href="javascript:{}" onclick="document.getElementById('contact_form').submit(); return false;">Ajouter</a>
+                        </div>
+                    </form>
                 </div>
 
-                <div class="form_bottom">
-                    <a class="cancel_button" type="submit" onclick="javascript:toggle_modal('newcontact_modal');">Annuler</a>
-                    
-                    <a class="submit_button" href="javascript:{}" onclick="document.getElementById('contact_form').submit(); return false;">Ajouter</a>
-                </div>
-            </form>
+            </div>
         </div>
-        
-    </div>
-</div>
 
-<%}%>
+        <%}%>
