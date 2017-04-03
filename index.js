@@ -574,7 +574,7 @@ postadmin.post('/adm/:id/eleve/add', eleveUpload, function (req, res) {
 
     // CREER LA LIGNE DE L'ELEVE
 
-    bdd.query("INSERT INTO eleve (nom, prenom, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, sexe, date_inscription, nom_medecin, prenom_medecin, telephone_medecin, remarques_medicales) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", [req.body.nom,
+    bdd.query("INSERT INTO eleve (nom, prenom, date_naissance, ville_naissance, pays_naissance, etablissement_precedent, sexe, date_inscription, nom_medecin, prenom_medecin, telephone_medecin, remarques_medicales, photo, convocation, bulletin) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)", [req.body.nom,
          req.body.prenom,
          req.body.date_naissance,
          req.body.ville_naissance,
@@ -585,7 +585,10 @@ postadmin.post('/adm/:id/eleve/add', eleveUpload, function (req, res) {
          req.body.nom_medecin,
          req.body.prenom_medecin,
          req.body.telephone_medecin,
-         req.body.remarques_medicales
+         req.body.remarques_medicales,
+         false,
+         false,
+         false
         ]);
 
     // ON RECUPERE LE MATRICULE
@@ -632,14 +635,15 @@ postadmin.post('/adm/:id/eleve/add', eleveUpload, function (req, res) {
             bdd.query("UPDATE eleve SET bulletin = true WHERE matricule = $1", [matricule]);
         }
 
-
     });
 
     res.redirect('/adm/' + req.params.id);
 
 });
 
-postadmin.post('/adm/:id/eleve/modify/:matricule', function (req, res) {
+
+
+postadmin.post('/adm/:id/eleve/modify/:matricule', eleveUpload, function (req, res) {
 
     bdd.query("UPDATE eleve SET prenom = $1, nom = $2, ville_naissance = $3, pays_naissance = $4, etablissement_precedent = $5, nom_medecin = $6, prenom_medecin = $7, telephone_medecin = $8, remarques_medicales = $9 WHERE matricule = $10", [
         req.body.prenom,
@@ -654,9 +658,33 @@ postadmin.post('/adm/:id/eleve/modify/:matricule', function (req, res) {
         req.params.matricule
     ]);
 
-    // MODIF CONTACTS
-    // MODIF ADRESSE
-    // MODIF FICHIERS
+    var matricule = req.params.matricule;
+
+    // UPLOAD DOCUMENTS
+
+    if (req.files['convocation'] && req.files['convocation'][0]) {
+
+        var convoc = req.files['convocation'][0];
+        var extension = '.txt';
+
+        var tmp_path = convoc.path;
+        var target_path = './public/document/convocation/' + matricule + extension;
+        moveTo(tmp_path, target_path, function () {});
+
+        bdd.query("UPDATE eleve SET convocation = true WHERE matricule = $1", [matricule]);
+    }
+
+    if (req.files['bulletin'] && req.files['bulletin'][0]) {
+
+        var bulletin = req.files['bulletin'][0];
+        var extension = '.pdf';
+
+        var tmp_path = bulletin.path;
+        var target_path = './public/document/bulletin/' + matricule + extension;
+        moveTo(tmp_path, target_path, function () {});
+
+        bdd.query("UPDATE eleve SET bulletin = true WHERE matricule = $1", [matricule]);
+    }
 
     res.redirect('/adm/' + req.params.id + '/eleve/modify');
 

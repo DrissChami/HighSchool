@@ -10,7 +10,7 @@
         <div class="modal_content">
             <h2>Modifiez les informations de cet élève</h2>
 
-            <form method="post" action="../eleve/modify/<%= eleve.matricule %>" style="font-size: 0.5em;" id="modifeleve_form_<%= eleve.matricule %>">
+            <form method="post" action="../eleve/modify/<%= eleve.matricule %>" style="font-size: 0.5em;" id="modifeleve_form_<%= eleve.matricule %>" enctype="multipart/form-data">
 
                 <div class="modal_adresse">
                     <input class="rue" type="text" name="prenom" placeholder="Prénom de l'élève" required value="<%= eleve.prenom%>">
